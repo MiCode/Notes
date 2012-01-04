@@ -21,4 +21,11 @@
     <dimen name="text_font_size_medium">20sp</dimen>
     <dimen name="text_font_size_normal">17sp</dimen>
     <dimen name="text_font_size_small">14sp</dimen>
+    <!-- Layout attributes for DateTimePicker -->
+    <dimen name="width_date_spinner_24_hourview">140dip</dimen>
+    <dimen name="width_date_spinner_12_houwview">120dip</dimen>
+    <dimen name="width_hour_spinner_24_hourview">70dip</dimen>
+    <dimen name="width_hour_spinner_12_hourview">50dip</dimen>
+    <dimen name="width_minute_spinner_24_hourview">70dip</dimen>
+    <dimen name="width_minute_spinner_12_hourview">50dip</dimen>
 </resources>
