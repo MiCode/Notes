@@ -25,6 +25,7 @@
     <string name="notelist_string_info">...</string>
     <string name="notelist_menu_new">新建便签</string>
     <string name="delete_remind_time_message">成功删除提醒</string>
+    <string name="set_remind_time_message">创建提醒</string>
     <string name="note_alert_expired">已过期</string>
     <string name="format_date_ymd">yyyyMMdd</string>
     <string name="format_datetime_mdhm">MM月dd日 kk:mm</string>
@@ -116,6 +117,8 @@
     <string name="search_hint">搜索便签</string>
     <string name="search_setting_description">便签中的文字</string>
     <string name="search">便签</string>
+    <string name="datetime_dialog_ok">设置</string>
+    <string name="datetime_dialog_cancel">取消</string>
     <plurals name="search_results_title">
         <item quantity="other"><xliff:g id="NUMBER">%1$s</xliff:g> 条符合“<xliff:g id="SEARCH">%2$s</xliff:g>”的搜索结果</item>
     </plurals>
