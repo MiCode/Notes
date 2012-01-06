@@ -8,7 +8,6 @@ import net.micode.notes.R;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -22,47 +21,41 @@ public class DateTimePicker extends FrameLayout {
 	private static final int HOURS_IN_ALL_DAY = 24;
 	private static final int DAYS_IN_ALL_WEEK = 7;
 	
-	private static final int WIDTH_DATE_SPINNER_24_HOURVIEW = 140;
-	private static final int WIDTH_HOUR_SPINNER_24_HOURVIEW = 70;
-	private static final int WIDTH_MINUTE_SPINNER_24_HOURVIEW = 70;
-	private static final int WIDTH_DATE_SPINNER_12_HOURVIEW = 120;
-	private static final int WIDTH_HOUR_SPINNER_12_HOURVIEW = 50;
-	private static final int WIDTH_MINUTE_SPINNER_12_HOURVIEW = 50;
+	private final int WIDTH_DATE_SPINNER_24_HOURVIEW;
+	private final int WIDTH_HOUR_SPINNER_24_HOURVIEW;
+	private final int WIDTH_MINUTE_SPINNER_24_HOURVIEW;
+	private final int WIDTH_DATE_SPINNER_12_HOURVIEW;
+	private final int WIDTH_HOUR_SPINNER_12_HOURVIEW;
+	private final int WIDTH_MINUTE_SPINNER_12_HOURVIEW;
 	
 	private final NumberPicker mDateSpinner;
 	private final NumberPicker mHourSpinner;
 	private final NumberPicker mMinuteSpinner;
 	private final NumberPicker mAmPmSpinner;
-	Calendar mDate = Calendar.getInstance();
+	private Calendar mDate;
 	
-	String[] mDateDisplayValues = new String[DAYS_IN_ALL_WEEK];
-	
-	/*private final EditText mHourSpinnerInput;
-	private final EditText mMinuteSpinnerInput;
-	private final EditText mAmPmSpinnerInput;*/
+	private String[] mDateDisplayValues = new String[DAYS_IN_ALL_WEEK];
 	
 	private boolean mIsAm;
 
-	boolean mIs24HourView;
+	private boolean mIs24HourView;
 	
-	boolean mIsEnabled = DEFAULT_ENABLE_STATE;
+	private boolean mIsEnabled = DEFAULT_ENABLE_STATE;
 	
-	boolean mInitialising;
+	private boolean mInitialising;
 	
 	private OnDateTimeChangedListener mOnDateTimeChangedListener;
 	
 	private NumberPicker.OnValueChangeListener mOnPickerValueChangedListener = new NumberPicker.OnValueChangeListener() {
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (picker == mDateSpinner) {
-				int offset = newVal - oldVal;
-				mDate.add(Calendar.DAY_OF_YEAR, offset);
+				mDate.add(Calendar.DAY_OF_YEAR, newVal - oldVal);
 				updateDateControl();
 				onDateTimeChanged();
 			} else if (picker == mHourSpinner) {
-				/*updateInputState();*/
 				boolean isDateChanged = false;
 				Calendar cal = Calendar.getInstance();
-				if (!is24HourView()) {
+				if (!mIs24HourView) {
 					if (!mIsAm && oldVal == HOURS_IN_HALF_DAY - 1 && newVal == HOURS_IN_HALF_DAY) {
 						cal.setTimeInMillis(mDate.getTimeInMillis());
 						cal.add(Calendar.DAY_OF_YEAR, 1);
@@ -97,7 +90,6 @@ public class DateTimePicker extends FrameLayout {
 					setCurrentDay(cal.get(Calendar.DAY_OF_MONTH));
 				}
 			} else if (picker == mMinuteSpinner) {
-				/*updateInputState();*/
 				int minValue = mMinuteSpinner.getMinValue();
 				int maxValue = mMinuteSpinner.getMaxValue();
 				int offset = 0;
@@ -122,9 +114,6 @@ public class DateTimePicker extends FrameLayout {
 				mDate.set(Calendar.MINUTE, newVal);
 				onDateTimeChanged();
 			} else if (picker == mAmPmSpinner) {
-				/*
-                updateInputState();
-                picker.requestFocus();*/
 				mIsAm = !mIsAm;
 				if (mIsAm) {
 					mDate.add(Calendar.HOUR_OF_DAY, -HOURS_IN_HALF_DAY);
@@ -152,10 +141,17 @@ public class DateTimePicker extends FrameLayout {
 	
 	public DateTimePicker(Context context, long date, boolean is24HourView) {
 		super(context);
+		mDate = Calendar.getInstance();
         mInitialising = true;
 		mIsAm = getCurrentHourOfDay() >= HOURS_IN_HALF_DAY;
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.datetime_picker, this, true);
+		inflate(context, R.layout.datetime_picker, this);
+		
+		WIDTH_DATE_SPINNER_24_HOURVIEW = getResources().getDimensionPixelSize(R.dimen.width_date_spinner_24_hourview);
+		WIDTH_DATE_SPINNER_12_HOURVIEW = getResources().getDimensionPixelSize(R.dimen.width_date_spinner_12_houwview);
+		WIDTH_HOUR_SPINNER_24_HOURVIEW = getResources().getDimensionPixelSize(R.dimen.width_hour_spinner_24_hourview);
+		WIDTH_HOUR_SPINNER_12_HOURVIEW = getResources().getDimensionPixelSize(R.dimen.width_hour_spinner_12_hourview);
+		WIDTH_MINUTE_SPINNER_24_HOURVIEW = getResources().getDimensionPixelSize(R.dimen.width_hour_spinner_24_hourview);
+		WIDTH_MINUTE_SPINNER_12_HOURVIEW = getResources().getDimensionPixelSize(R.dimen.width_hour_spinner_12_hourview);
 		
 		mDateSpinner = (NumberPicker) findViewById(R.id.date);
 		mDateSpinner.setMinValue(0);
@@ -164,23 +160,11 @@ public class DateTimePicker extends FrameLayout {
 		
 		mHourSpinner = (NumberPicker) findViewById(R.id.hour);
 		mHourSpinner.setOnValueChangedListener(mOnPickerValueChangedListener);
-		/*
-        mHourSpinnerInput = (EditText) mHourSpinner.findViewById(R.id.numberpicker_input);
-        mHourSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);*/
-		/*
-        mDivider = (TextView) findViewById(R.id.divider);
-        if (mDivider != null) {
-            mDivider.setText(R.string.time_picker_separator);
-        }*/
 		mMinuteSpinner =  (NumberPicker) findViewById(R.id.minute);
 		mMinuteSpinner.setMinValue(0);
 		mMinuteSpinner.setMaxValue(59);
         mMinuteSpinner.setOnLongPressUpdateInterval(100);
-        /*mMinuteSpinner.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);*/
 		mMinuteSpinner.setOnValueChangedListener(mOnPickerValueChangedListener);
-        /*
-        mMinuteSpinnerInput = (EditText) mMinuteSpinner.findViewById(R.id.numberpicker_input);
-        mMinuteSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);*/
 		
         String[] stringsForAmPm = new DateFormatSymbols().getAmPmStrings(); 
 		mAmPmSpinner = (NumberPicker) findViewById(R.id.amPm);
@@ -188,16 +172,13 @@ public class DateTimePicker extends FrameLayout {
 		mAmPmSpinner.setMaxValue(1);
 		mAmPmSpinner.setDisplayedValues(stringsForAmPm);
 		mAmPmSpinner.setOnValueChangedListener(mOnPickerValueChangedListener);
-		/*
-            mAmPmSpinnerInput = (EditText) mAmPmSpinner.findViewById(R.id.numberpicker_input);
-            mAmPmSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_DONE);*/
 
         // update controls to initial state
 		updateDateControl();
         updateHourControl();
         updateAmPmControl();
         
-        setIs24HourView(is24HourView);
+        set24HourView(is24HourView);
 
         // set to current time
         setCurrentDate(date);
@@ -207,7 +188,6 @@ public class DateTimePicker extends FrameLayout {
         }
 
         // set the content descriptions
-        /*setContentDescriptions();*/
         mInitialising = false;
 	}
 	
@@ -219,10 +199,6 @@ public class DateTimePicker extends FrameLayout {
 		super.setEnabled(enabled);
 		mDateSpinner.setEnabled(enabled);
 		mMinuteSpinner.setEnabled(enabled);
-		/*
-        if (mDivider != null) {
-            mDivider.setEnabled(enabled);
-        }*/
 		mHourSpinner.setEnabled(enabled);
 		mAmPmSpinner.setEnabled(enabled);
 		mIsEnabled = enabled;
@@ -233,7 +209,7 @@ public class DateTimePicker extends FrameLayout {
 		return mIsEnabled;
 	}
 	
-	public long getCurrentDate() {
+	public long getCurrentDateInTimeMillis() {
 		return mDate.getTimeInMillis();
 	}
 	
@@ -297,7 +273,7 @@ public class DateTimePicker extends FrameLayout {
 	}
 	
 	public int getCurrentHour() {
-		if (is24HourView()){
+		if (mIs24HourView){
 			return getCurrentHourOfDay();
 		} else {
 			int hour = getCurrentHourOfDay();
@@ -314,7 +290,7 @@ public class DateTimePicker extends FrameLayout {
 			return;
 		}
 		mDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
-		if (!is24HourView()) {
+		if (!mIs24HourView) {
 			if (hourOfDay >= HOURS_IN_HALF_DAY) {
 				mIsAm = false;
 				if (hourOfDay > HOURS_IN_HALF_DAY) {
@@ -349,7 +325,7 @@ public class DateTimePicker extends FrameLayout {
 		return mIs24HourView;
 	}
 	
-	public void setIs24HourView(boolean is24HourView) {
+	public void set24HourView(boolean is24HourView) {
 		if (mIs24HourView == is24HourView) {
 			return;
 		}
@@ -377,13 +353,12 @@ public class DateTimePicker extends FrameLayout {
 	
 	private void updateDateControl() {
 		Calendar cal = Calendar.getInstance();
-		final String fomater = "MM.dd EEEE";
 		cal.setTimeInMillis(mDate.getTimeInMillis());
 		cal.add(Calendar.DAY_OF_YEAR, -DAYS_IN_ALL_WEEK / 2 - 1);
 		mDateSpinner.setDisplayedValues(null);
 		for (int i = 0; i < DAYS_IN_ALL_WEEK; ++i) {
 			cal.add(Calendar.DAY_OF_YEAR, 1);
-			mDateDisplayValues[i] = (String) DateFormat.format(fomater, cal);
+			mDateDisplayValues[i] = (String) DateFormat.format("MM.dd EEEE", cal);
 		}
 		mDateSpinner.setDisplayedValues(mDateDisplayValues);
 		mDateSpinner.setValue(DAYS_IN_ALL_WEEK / 2);
@@ -391,7 +366,7 @@ public class DateTimePicker extends FrameLayout {
 	}
 	
 	private void updateAmPmControl() {
-		if (is24HourView()) {
+		if (mIs24HourView) {
 			mAmPmSpinner.setVisibility(View.GONE);
 		} else {
 			int index = mIsAm ? Calendar.AM : Calendar.PM;
@@ -401,14 +376,12 @@ public class DateTimePicker extends FrameLayout {
 	}
 	
 	private void updateHourControl() {
-		if (is24HourView()) {
+		if (mIs24HourView) {
 			mHourSpinner.setMinValue(0);
 			mHourSpinner.setMaxValue(23);
-			/*mHourSpinner.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);*/
 		} else {
 			mHourSpinner.setMinValue(1);
 			mHourSpinner.setMaxValue(12);
-			/*mHourSpinner.setFormatter(null)*/
 		}
 	}
 	
@@ -417,7 +390,6 @@ public class DateTimePicker extends FrameLayout {
 	}
 	
 	private void onDateTimeChanged() {
-		/*sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);*/
 		if (mOnDateTimeChangedListener != null) {
 			mOnDateTimeChangedListener.onDateTimeChanged(this, getCurrentYear(),
 					getCurrentMonth(), getCurrentDay(), getCurrentHourOfDay(), getCurrentMinute());
