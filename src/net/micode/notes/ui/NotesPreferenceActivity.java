@@ -370,12 +370,6 @@ public class NotesPreferenceActivity extends PreferenceActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getActionBar().setHomeButtonEnabled(true);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
