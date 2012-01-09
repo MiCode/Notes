@@ -42,11 +42,12 @@
         android:id="@+id/menu_send_to_desktop"
         android:title="@string/menu_send_to_desktop"/>
 
+<!--
     <item
         android:id="@+id/menu_alert"
-        android:title="@string/menu_alert" />
-
+        android:title="@string/menu_alert" /> -->
+<!--
     <item
         android:id="@+id/menu_delete_remind"
-        android:title="@string/menu_remove_remind" />
+        android:title="@string/menu_remove_remind" /> -->
 </menu>

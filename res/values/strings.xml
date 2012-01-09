@@ -25,7 +25,6 @@
     <string name="notelist_string_info">...</string>
     <string name="notelist_menu_new">Add note</string>
     <string name="delete_remind_time_message">Delete reminder successfully</string>
-    <string name="set_remind_time_message">Set reminder</string>
     <string name="note_alert_expired">Expired</string>
     <string name="format_date_ymd">yyyyMMdd</string>
     <string name="format_datetime_mdhm">MMMd kk:mm</string>
@@ -124,8 +123,6 @@
     <string name="search_hint">Search notes</string>
     <string name="search_setting_description">Text in your notes</string>
     <string name="search">Notes</string>
-    <string name="datetime_dialog_ok">set</string>
-    <string name="datetime_dialog_cancel">cancel</string>
     <plurals name="search_results_title">
          <item quantity="one"><xliff:g id="number" example="1">%1$s</xliff:g> result for \"<xliff:g id="search" example="???">%2$s</xliff:g>\"</item>
         <!-- Case of 0 or 2 or more results. -->
