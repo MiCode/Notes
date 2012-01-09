@@ -18,6 +18,7 @@ package net.micode.notes.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -369,13 +370,6 @@ public class NotesPreferenceActivity extends PreferenceActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getActionBar().setHomeButtonEnabled(true);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

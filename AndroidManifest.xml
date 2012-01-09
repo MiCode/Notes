@@ -51,7 +51,7 @@
 
         <activity
             android:name=".ui.NoteEditActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:theme="@style/NoteTheme" >
 
