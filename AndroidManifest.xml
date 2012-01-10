@@ -81,7 +81,7 @@
 
         <provider
             android:name="net.micode.notes.data.NotesProvider"
-            android:authorities="notes"
+            android:authorities="micode_notes"
             android:multiprocess="true" />
 
         <receiver

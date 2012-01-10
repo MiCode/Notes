@@ -18,7 +18,6 @@ package net.micode.notes.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -35,7 +34,6 @@ import android.preference.PreferenceCategory;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;

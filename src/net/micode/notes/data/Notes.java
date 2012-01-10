@@ -18,7 +18,7 @@ package net.micode.notes.data;
 
 import android.net.Uri;
 public class Notes {
-    public static final String AUTHORITY = "notes";
+    public static final String AUTHORITY = "micode_notes";
     public static final String TAG = "Notes";
     public static final int TYPE_NOTE     = 0;
     public static final int TYPE_FOLDER   = 1;
