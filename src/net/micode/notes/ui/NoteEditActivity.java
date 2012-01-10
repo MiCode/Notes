@@ -60,6 +60,7 @@ import net.micode.notes.model.WorkingNote.NoteSettingChangedListener;
 import net.micode.notes.tool.DataUtils;
 import net.micode.notes.tool.ResourceParser;
 import net.micode.notes.tool.ResourceParser.TextAppearanceResources;
+import net.micode.notes.ui.DateTimePickerDialog.OnDateTimeSetListener;
 import net.micode.notes.ui.NoteEditText.OnTextViewChangeListener;
 import net.micode.notes.widget.NoteWidgetProvider_2x;
 import net.micode.notes.widget.NoteWidgetProvider_4x;
@@ -493,6 +494,11 @@ public class NoteEditActivity extends Activity implements OnClickListener,
         } else {
             menu.findItem(R.id.menu_list_mode).setTitle(R.string.menu_list_mode);
         }
+        if (mWorkingNote.hasClockAlert()) {
+            menu.findItem(R.id.menu_alert).setVisible(false);
+        } else {
+            menu.findItem(R.id.menu_delete_remind).setVisible(false);
+        }
         return true;
     }
 
@@ -532,10 +538,26 @@ public class NoteEditActivity extends Activity implements OnClickListener,
             case R.id.menu_send_to_desktop:
                 sendToDesktop();
                 break;
+            case R.id.menu_alert:
+                setReminder();
+                break;
+            case R.id.menu_delete_remind:
+                mWorkingNote.setAlertDate(0, false);
+                break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void setReminder() {
+        DateTimePickerDialog d = new DateTimePickerDialog(this, System.currentTimeMillis());
+        d.setOnDateTimeSetListener(new OnDateTimeSetListener() {
+            public void OnDateTimeSet(AlertDialog dialog, long date) {
+                mWorkingNote.setAlertDate(date	, true);
+            }
+        });
+        d.show();
     }
 
     /**
