@@ -134,7 +134,7 @@
             android:name="net.micode.notes.ui.NotesPreferenceActivity"
             android:label="@string/preferences_title"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@android:style/Theme.Holo.Light" >
         </activity>
 
         <service
