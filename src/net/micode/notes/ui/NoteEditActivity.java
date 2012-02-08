@@ -482,6 +482,9 @@ public class NoteEditActivity extends Activity implements OnClickListener,
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        if (isFinishing()) {
+            return true;
+        }
         clearSettingState();
         menu.clear();
         if (mWorkingNote.getFolderId() == Notes.ID_CALL_RECORD_FOLDER) {
