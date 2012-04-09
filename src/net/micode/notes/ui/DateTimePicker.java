@@ -78,6 +78,7 @@ public class DateTimePicker extends FrameLayout {
         public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
             boolean isDateChanged = false;
             Calendar cal = Calendar.getInstance();
+            int newHour;
             if (!mIs24HourView) {
                 if (!mIsAm && oldVal == HOURS_IN_HALF_DAY - 1 && newVal == HOURS_IN_HALF_DAY) {
                     cal.setTimeInMillis(mDate.getTimeInMillis());
@@ -93,6 +94,7 @@ public class DateTimePicker extends FrameLayout {
                     mIsAm = !mIsAm;
                     updateAmPmControl();
                 }
+                newHour = mHourSpinner.getValue() % HOURS_IN_HALF_DAY + (mIsAm ? 0 : HOURS_IN_HALF_DAY);
             } else {
                 if (oldVal == HOURS_IN_ALL_DAY - 1 && newVal == 0) {
                     cal.setTimeInMillis(mDate.getTimeInMillis());
@@ -103,8 +105,8 @@ public class DateTimePicker extends FrameLayout {
                     cal.add(Calendar.DAY_OF_YEAR, -1);
                     isDateChanged = true;
                 }
+                newHour = mHourSpinner.getValue();
             }
-            int newHour = mHourSpinner.getValue() % HOURS_IN_HALF_DAY + (mIsAm ? 0 : HOURS_IN_HALF_DAY);
             mDate.set(Calendar.HOUR_OF_DAY, newHour);
             onDateTimeChanged();
             if (isDateChanged) {
