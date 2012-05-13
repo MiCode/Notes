@@ -41,7 +41,6 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/NoteTheme"
-            android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustPan" >
 
             <intent-filter>
@@ -135,7 +134,7 @@
             android:name="net.micode.notes.ui.NotesPreferenceActivity"
             android:label="@string/preferences_title"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Holo.Light" >
+            android:theme="@android:style/Theme.Holo" >
         </activity>
 
         <service

@@ -97,7 +97,9 @@
                         android:linksClickable="false"
                         android:minLines="12"
                         android:textAppearance="@style/TextAppearancePrimaryItem"
-                        android:lineSpacingMultiplier="1.2" />
+                        android:lineSpacingMultiplier="1.2"
+                        android:textColor="#000000"
+                        android:textCursorDrawable="@null"/>
 
                     <LinearLayout
                         android:id="@+id/note_edit_list"

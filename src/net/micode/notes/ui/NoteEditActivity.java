@@ -16,11 +16,7 @@
 
 package net.micode.notes.ui;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.app.SearchManager;
+import android.app.*;
 import android.appwidget.AppWidgetManager;
 import android.content.ContentUris;
 import android.content.Context;
@@ -395,6 +391,10 @@ public class NoteEditActivity extends Activity implements OnClickListener,
             mFontSizeId = ResourceParser.BG_DEFAULT_FONT_SIZE;
         }
         mEditTextList = (LinearLayout) findViewById(R.id.note_edit_list);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -546,6 +546,12 @@ public class NoteEditActivity extends Activity implements OnClickListener,
                 break;
             case R.id.menu_delete_remind:
                 mWorkingNote.setAlertDate(0, false);
+                break;
+            case android.R.id.home:
+                //finish();
+                Intent intent = new Intent(this, NotesListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             default:
                 break;

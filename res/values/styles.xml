@@ -58,12 +58,11 @@
         <item name="android:textColor">@color/secondary_text_dark</item>
     </style>
 
-    <style name="NoteTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="NoteTheme" parent="@android:style/Theme.Holo">
         <item name="android:actionBarStyle">@style/NoteActionBarStyle</item>
     </style>
 
-    <style name="NoteActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:displayOptions" />
-        <item name="android:visibility">gone</item>
+    <style name="NoteActionBarStyle" parent="@android:style/Widget.Holo.ActionBar.Solid">
+        <item name="android:displayOptions">showHome|useLogo</item>
     </style>
 </resources>
