@@ -16,6 +16,7 @@
 
 package net.micode.notes.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -555,6 +556,10 @@ public class NotesListActivity extends Activity implements OnClickListener, OnIt
             mTitleBar.setText(data.getSnippet());
         }
         mTitleBar.setVisibility(View.VISIBLE);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     public void onClick(View v) {
@@ -672,12 +677,23 @@ public class NotesListActivity extends Activity implements OnClickListener, OnIt
                 mState = ListEditState.NOTE_LIST;
                 startAsyncNotesListQuery();
                 mTitleBar.setVisibility(View.GONE);
+
+                {
+                    ActionBar actionBar = getActionBar();
+                    actionBar.setHomeButtonEnabled(false);
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                }
                 break;
             case CALL_RECORD_FOLDER:
                 mCurrentFolderId = Notes.ID_ROOT_FOLDER;
                 mState = ListEditState.NOTE_LIST;
                 mAddNewNote.setVisibility(View.VISIBLE);
                 mTitleBar.setVisibility(View.GONE);
+                {
+                    ActionBar actionBar = getActionBar();
+                    actionBar.setHomeButtonEnabled(false);
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                }
                 startAsyncNotesListQuery();
                 break;
             case NOTE_LIST:
@@ -811,6 +827,9 @@ public class NotesListActivity extends Activity implements OnClickListener, OnIt
             }
             case R.id.menu_search:
                 onSearchRequested();
+                break;
+            case android.R.id.home:
+                onBackPressed();
                 break;
             default:
                 break;
