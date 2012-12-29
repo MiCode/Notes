@@ -325,7 +325,7 @@ public class BackupUtils {
 
         try {
             if (!filedir.exists()) {
-                filedir.mkdir();
+                filedir.mkdirs();  // filedir creates failed [fix]
             }
             if (!file.exists()) {
                 file.createNewFile();
