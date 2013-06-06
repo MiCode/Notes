@@ -58,7 +58,7 @@
         <item name="android:textColor">@color/secondary_text_dark</item>
     </style>
 
-    <style name="NoteTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="NoteTheme" parent="@android:Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/NoteActionBarStyle</item>
     </style>
 
@@ -66,4 +66,5 @@
         <item name="android:displayOptions" />
         <item name="android:visibility">gone</item>
     </style>
+
 </resources>
