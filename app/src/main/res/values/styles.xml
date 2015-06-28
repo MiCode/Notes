@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Copyright (c) 2010-2011, The MiCode Open Source Community (www.micode.net)
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <style name="TextAppearanceSuper">
+        <item name="android:textSize">@dimen/text_font_size_super</item>
+        <item name="android:textColorLink">#0000ff</item>
+    </style>
+    <style name="TextAppearanceLarge">
+        <item name="android:textSize">@dimen/text_font_size_large</item>
+        <item name="android:textColorLink">#0000ff</item>
+    </style>
+    <style name="TextAppearanceMedium">
+        <item name="android:textSize">@dimen/text_font_size_medium</item>
+        <item name="android:textColorLink">#0000ff</item>
+    </style>
+    <style name="TextAppearanceNormal">
+        <item name="android:textSize">@dimen/text_font_size_normal</item>
+        <item name="android:textColorLink">#0000ff</item>
+    </style>
+
+    <style name="TextAppearancePrimaryItem">
+        <item name="android:textSize">@dimen/text_font_size_normal</item>
+        <item name="android:textColor">@color/primary_text_dark</item>
+    </style>
+
+    <style name="TextAppearanceSecondaryItem">
+        <item name="android:textSize">@dimen/text_font_size_small</item>
+        <item name="android:textColor">@color/secondary_text_dark</item>
+    </style>
+
+    <style name="TextAppearanceUnderMenuIcon">
+        <item name="android:textSize">@dimen/text_font_size_normal</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="HighlightTextAppearancePrimary">
+    <item name="android:textSize">@dimen/text_font_size_normal</item>
+        <item name="android:textColor">@color/primary_text_dark</item>
+    </style>
+
+    <style name="HighlightTextAppearanceSecondary">
+        <item name="android:textSize">@dimen/text_font_size_small</item>
+        <item name="android:textColor">@color/secondary_text_dark</item>
+    </style>
+
+    <style name="NoteTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/NoteActionBarStyle</item>
+    </style>
+
+    <style name="NoteActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:displayOptions" />
+        <item name="android:visibility">gone</item>
+    </style>
+</resources>

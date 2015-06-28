@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Copyright (c) 2010-2011, The MiCode Open Source Community (www.micode.net)
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Notes</string>
+    <string name="app_widget2x2">Notes 2x2</string>
+    <string name="app_widget4x4">Notes 4x4</string>
+    <string name="widget_havenot_content">No associated note found, click to create associated note.</string>
+    <string name="widget_under_visit_mode">Privacy mode，can not see note content</string>
+    <string name="notelist_string_info">...</string>
+    <string name="notelist_menu_new">Add note</string>
+    <string name="delete_remind_time_message">Delete reminder successfully</string>
+    <string name="set_remind_time_message">Set reminder</string>
+    <string name="note_alert_expired">Expired</string>
+    <string name="format_date_ymd">yyyyMMdd</string>
+    <string name="format_datetime_mdhm">MMMd kk:mm</string>
+    <string name="notealert_ok">Got it</string>
+    <string name="notealert_enter">Take a look</string>
+    <string name="note_link_tel">Call</string>
+    <string name="note_link_email">Send email</string>
+    <string name="note_link_web">Browse web</string>
+    <string name="note_link_other">Open map</string>
+    <!-- Text export file information -->
+    <string name="file_path">/MIUI/notes/</string>
+    <string name="file_name_txt_format">notes_%s.txt</string>
+    <!-- notes list string -->
+    <string name="format_folder_files_count">(%d)</string>
+    <string name="menu_create_folder">New Folder</string>
+    <string name="menu_export_text">Export text</string>
+    <string name="menu_sync">Sync</string>
+    <string name="menu_sync_cancel">Cancel syncing</string>
+    <string name="menu_setting">Settings</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_move">Move to folder</string>
+    <string name="menu_select_title">%d selected</string>
+    <string name="menu_select_none">Nothing selected, the operation is invalid</string>
+    <string name="menu_select_all">Select all</string>
+    <string name="menu_deselect_all">Deselect all</string>
+    <string name="menu_font_size">Font size</string>
+    <string name="menu_font_small">Small</string>
+    <string name="menu_font_normal">Medium</string>
+    <string name="menu_font_large">Large</string>
+    <string name="menu_font_super">Super</string>
+    <string name="menu_list_mode">Enter check list</string>
+    <string name="menu_normal_mode">Leave check list</string>
+    <string name="menu_folder_view">View folder</string>
+    <string name="menu_folder_delete">Delete folder</string>
+    <string name="menu_folder_change_name">Change folder name</string>
+    <string name="folder_exist">The folder %1$s exist, please rename</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send_to_desktop">Send to home</string>
+    <string name="menu_alert">Remind me</string>
+    <string name="menu_remove_remind">Delete reminder</string>
+    <string name="menu_title_select_folder">Select folder</string>
+    <string name="menu_move_parent_folder">Parent folder</string>
+    <string name="info_note_enter_desktop">Note added to home</string>
+    <string name="alert_message_delete_folder">Confirm to delete folder and its notes?</string>
+    <string name="alert_title_delete">Delete selected notes</string>
+    <string name="alert_message_delete_notes">Confirm to delete the selected %d notes?</string>
+    <string name="alert_message_delete_note">Confirm to delete this note?</string>
+    <string name="format_move_notes_to_folder">Have moved selected %1$d notes to %2$s folder</string>
+    <!-- Error information -->
+    <string name="error_sdcard_unmounted">SD card busy, not available now</string>
+    <string name="error_sdcard_export">Export failed, please check SD card</string>
+    <string name="error_note_not_exist">The note is not exist</string>
+    <string name="error_note_empty_for_clock">Sorry, can not set clock on empty note</string>
+    <string name="error_note_empty_for_send_to_desktop">Sorry, can not send and empty note to home</string>
+    <string name="success_sdcard_export">Export successful</string>
+    <string name="failed_sdcard_export">Export fail</string>
+    <string name="format_exported_file_location">Export text file (%1$s) to SD (%2$s) directory</string>
+    <!-- Sync -->
+    <string name="ticker_syncing">Syncing notes...</string>
+    <string name="ticker_success">Sync is successful</string>
+    <string name="ticker_fail">Sync is failed</string>
+    <string name="ticker_cancel">Sync is canceled</string>
+    <string name="success_sync_account">Sync is successful with account %1$s</string>
+    <string name="error_sync_network">Sync failed, please check network and account settings</string>
+    <string name="error_sync_internal">Sync failed, internal error occurs</string>
+    <string name="error_sync_cancelled">Sync is canceled</string>
+    <string name="sync_progress_login">Logging into %1$s...</string>
+    <string name="sync_progress_init_list">Getting remote note list...</string>
+    <string name="sync_progress_syncing">Synchronize local notes with Google Task...</string>
+    <!-- Preferences -->
+    <string name="preferences_title">Settings</string>
+    <string name="preferences_account_title">Sync account</string>
+    <string name="preferences_account_summary">Sync notes with google task</string>
+    <string name="preferences_last_sync_time">Last sync time %1$s</string>
+    <string name="preferences_last_sync_time_format">yyyy-MM-dd hh:mm:ss</string>
+    <string name="preferences_add_account">Add account</string>
+    <string name="preferences_menu_change_account">Change sync account</string>
+    <string name="preferences_menu_remove_account">Remove sync account</string>
+    <string name="preferences_menu_cancel">Cancel</string>
+    <string name="preferences_button_sync_immediately">Sync immediately</string>
+    <string name="preferences_button_sync_cancel">Cancel syncing</string>
+    <string name="preferences_dialog_change_account_title">Current account %1$s</string>
+    <string name="preferences_dialog_change_account_warn_msg">All sync related information will be deleted, which may result in duplicated items sometime</string>
+    <string name="preferences_dialog_select_account_title">Sync notes</string>
+    <string name="preferences_dialog_select_account_tips">Please select a google account. Local notes will be synced with google task.</string>
+    <string name="preferences_toast_cannot_change_account">Cannot change the account because sync is in progress</string>
+    <string name="preferences_toast_success_set_accout">%1$s has been set as the sync account</string>
+    <string name="preferences_bg_random_appear_title">New note background color random</string>
+
+    <string name="button_delete">Delete</string>
+    <string name="call_record_folder_name">Call notes</string>
+    <string name="hint_foler_name">Input name</string>
+
+    <string name="search_label">Searching Notes</string>
+    <string name="search_hint">Search notes</string>
+    <string name="search_setting_description">Text in your notes</string>
+    <string name="search">Notes</string>
+    <string name="datetime_dialog_ok">set</string>
+    <string name="datetime_dialog_cancel">cancel</string>
+    <plurals name="search_results_title">
+         <item quantity="one"><xliff:g id="number" example="1">%1$s</xliff:g> result for \"<xliff:g id="search" example="???">%2$s</xliff:g>\"</item>
+        <!-- Case of 0 or 2 or more results. -->
+        <item quantity="other"><xliff:g id="number" example="15">%1$s</xliff:g> results for \"<xliff:g id="search" example="???">%2$s</xliff:g>\"</item>
+    </plurals>
+
+</resources>
