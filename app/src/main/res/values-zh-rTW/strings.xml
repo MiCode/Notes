@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Copyright (c) 2010-2011, The MiCode Open Source Community (www.micode.net)
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">便簽</string>
+    <string name="app_widget2x2">便簽2x2</string>
+    <string name="app_widget4x4">便簽4x4</string>
+    <string name="widget_havenot_content">沒有關聯內容，點擊新建便簽。</string>
+    <string name="widget_under_visit_mode">訪客模式下，便籤內容不可見</string>
+    <string name="notelist_string_info">...</string>
+    <string name="notelist_menu_new">新建便簽</string>
+    <string name="delete_remind_time_message">成功刪除提醒</string>
+    <string name="set_remind_time_message">創建提醒</string>
+    <string name="note_alert_expired">已過期</string>
+    <string name="format_date_ymd">yyyyMMdd</string>
+    <string name="format_datetime_mdhm">MM月dd日 kk:mm</string>
+    <string name="notealert_ok">知道了</string>
+    <string name="notealert_enter">查看</string>
+    <string name="note_link_tel">呼叫電話</string>
+    <string name="note_link_email">發送郵件</string>
+    <string name="note_link_web">浏覽網頁</string>
+    <string name="note_link_other">打開地圖</string>
+    <string name="format_move_notes_to_folder">已將所選 %1$d 便籤移到 %2$s 文件夾</string>
+    <!-- note list string -->
+    <string name="menu_create_folder">新建文件夾</string>
+    <string name="menu_export_text">導出文本</string>
+    <string name="menu_sync">同步</string>
+    <string name="menu_sync_cancel">取消同步</string>
+    <string name="menu_setting">設置</string>
+    <string name="menu_search">搜尋</string>
+    <string name="menu_delete">刪除</string>
+    <string name="menu_move">移動到文件夾</string>
+    <string name="menu_select_title">選中了 %d 項</string>
+    <string name="menu_select_none">沒有選中項，操作無效</string>
+    <string name="menu_select_all">全選</string>
+    <string name="menu_deselect_all">取消全選</string>
+    <string name="menu_font_size">文字大小</string>
+    <string name="menu_font_small">小</string>
+    <string name="menu_font_normal">正常</string>
+    <string name="menu_font_large">大</string>
+    <string name="menu_font_super">超大</string>
+    <string name="menu_list_mode">進入清單模式</string>
+    <string name="menu_normal_mode">退出清單模式</string>
+    <string name="menu_folder_view">查看文件夾</string>
+    <string name="menu_folder_delete">刪除文件夾</string>
+    <string name="menu_folder_change_name">修改文件夾名稱</string>
+    <string name="folder_exist">文件夾 %1$s 已存在，請重新命名</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_send_to_desktop">發送到桌面</string>
+    <string name="menu_alert">提醒我</string>
+    <string name="menu_remove_remind">刪除提醒</string>
+    <string name="menu_title_select_folder">選擇文件夾</string>
+    <string name="menu_move_parent_folder">上一級文件夾</string>
+    <string name="info_note_enter_desktop">已添加到桌面</string>
+    <string name="alert_title_delete">刪除</string>
+    <string name="alert_message_delete_notes">确认要刪除所選的 %d 條便籤嗎?</string>
+    <string name="alert_message_delete_note">确认要删除該條便籤嗎?</string>
+    <string name="alert_message_delete_folder">確認刪除檔夾及所包含的便簽嗎？</string>
+    <string name="error_sdcard_unmounted">SD卡被佔用，不能操作</string>
+    <string name="error_sdcard_export">導出TXT時發生錯誤，請檢查SD卡</string>
+    <string name="error_note_not_exist">要查看的便籤不存在</string>
+    <string name="error_note_empty_for_clock">不能爲空便籤設置鬧鐘提醒</string>
+    <string name="error_note_empty_for_send_to_desktop">不能將空便籤發送到桌面</string>
+    <string name="success_sdcard_export">導出成功</string>
+    <string name="failed_sdcard_export">導出失敗</string>
+    <string name="format_exported_file_location">已將文本文件(%1$s)導出至SD(%2$s)目錄</string>
+    <!-- Sync -->
+    <string name="ticker_syncing">同步便簽...</string>
+    <string name="ticker_success">同步成功</string>
+    <string name="ticker_fail">同步失敗</string>
+    <string name="ticker_cancel">同步已取消</string>
+    <string name="success_sync_account">與%1$s同步成功</string>
+    <string name="error_sync_network">同步失敗，請檢查網絡和帳號設置</string>
+    <string name="error_sync_internal">同步失敗，發生內部錯誤</string>
+    <string name="error_sync_cancelled">同步已取消</string>
+    <string name="sync_progress_login">登陸%1$s...</string>
+    <string name="sync_progress_init_list">正在獲取服務器便籤列表...</string>
+    <string name="sync_progress_syncing">正在同步本地便籤...</string>
+    <!-- Preferences -->
+    <string name="preferences_title">設置</string>
+    <string name="preferences_account_title">同步賬號</string>
+    <string name="preferences_account_summary">与google task同步便簽記錄</string>
+    <string name="preferences_last_sync_time">上次同步于 %1$s</string>
+    <string name="preferences_add_account">添加賬號</string>
+    <string name="preferences_menu_change_account">更換賬號</string>
+    <string name="preferences_menu_remove_account">刪除賬號</string>
+    <string name="preferences_menu_cancel">取消</string>
+    <string name="preferences_button_sync_immediately">立即同步</string>
+    <string name="preferences_button_sync_cancel">取消同步</string>
+    <string name="preferences_dialog_change_account_title">當前帳號 %1$s</string>
+    <string name="preferences_dialog_change_account_warn_msg">如更換同步帳號，過去的帳號同步信息將被清空，再次切換的同時可能會造成數據重復</string>
+    <string name="preferences_dialog_select_account_title">同步便簽</string>
+    <string name="preferences_dialog_select_account_tips">請選擇google帳號，便簽將與該帳號的google task內容同步。</string>
+    <string name="preferences_toast_cannot_change_account">正在同步中，不能修改同步帳號</string>
+    <string name="preferences_toast_success_set_accout">同步帳號已設置為%1$s</string>
+    <string name="preferences_bg_random_appear_title">新建便籤背景顏色隨機</string>
+
+    <string name="button_delete">刪除</string>
+    <string name="call_record_folder_name">通話便籤</string>
+    <string name="hint_foler_name">請輸入名稱</string>
+
+    <string name="search_label">正在搜索便籤</string>
+    <string name="search_hint">搜索便籤</string>
+    <string name="search_setting_description">便籤中的文字</string>
+    <string name="search">便籤</string>
+    <string name="datetime_dialog_ok">設置</string>
+    <string name="datetime_dialog_cancel">取消</string>
+    <plurals name="search_results_title">
+        <item quantity="other"><xliff:g id="NUMBER">%1$s</xliff:g> 條符合”<xliff:g id="SEARCH">%2$s</xliff:g>“的搜尋結果</item>
+    </plurals>
+
+</resources>
