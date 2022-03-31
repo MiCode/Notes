@@ -1,0 +1,10 @@
+原帖：https://learnerhub.net/#/spaces/146/resources-docs/6353
+
+二-4的无法同步gradle，可通过在在build.gradle里的两个repositories里添加代码google()解决
+
+第三步的httpcomponents-client组件链接失效，可在https://mirrors.tuna.tsinghua.edu.cn/apache//httpcomponents/httpclient/binary/选择最新版本下载
+
+同样，在引入该组件时需要修改版本号
+
+
+//build乱码问题为找到解决方法，但注释对应函数仍然有用
