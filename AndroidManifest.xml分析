@@ -1,0 +1,72 @@
+line36：
+android:icon="@drawable/icon_app"
+指向res/drawable/icon_app 的app图标
+
+line37：
+android:label="@string/app_name" >
+指向res/values/strings/strings.xm
+定义如下：
+<string name="app_name">Notes</string>
+<string name="app_name">便签</string>
+<string name="app_name">便簽</string>
+
+line39-line51：
+ <activity
+            android:name=".ui.NotesListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/NoteTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustPan" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+其中
+android:name
+指向对应路径
+
+android:configChanges
+所列出的状态发生变更时候，Activity会调用onConfigurationChanged()方法
+三个参数分别为：
+keyboardHidden
+键盘无障碍功能发生了变化 — 例如，用户显示了硬件键盘。
+orientation
+屏幕方向发生了变化 — 用户旋转了设备。
+screenSize
+当前可用屏幕尺寸发生了变化。它表示当前可用尺寸相对于当前纵横比的变化，因此会在用户在横向与纵向之间切换时发生变化。
+
+android:label
+会在屏幕上显示的Activity标签，通常和上面的icon一起出现
+
+android:launchMode
+用来设置android的启动方式，此时参数为
+singleTop
+如果当前Activity处于栈顶，那么直接复用，否则重新启动Activity
+
+android:theme
+设置Activity的主题。指向res/values/styles.xml，定义如下
+    <style name="NoteTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/NoteActionBarStyle</item>
+</style>
+
+android:uiOptions
+针对ActivityUI的附加选项。参数为：
+splitActionBarWhenNarrow
+当水平空间受限制，在屏幕底部添加一栏，以显示应用栏中的操作项。
+
+android:windowSoftInputMode
+Activity 的主窗口与包含屏幕软键盘的窗口的交互方式。 该属性的设置影响两个方面：
+当 Activity 成为用户注意的焦点时软键盘的状态 — 隐藏还是可见。
+对 Activity 主窗口所做的调整 — 是否将其尺寸调小以为软键盘腾出空间，或者当窗口部分被软键盘遮挡时是否平移其内容以使当前焦点可见。
+参数为
+adjustPan
+不调整 Activity 主窗口的尺寸来为软键盘腾出空间， 而是自动平移窗口的内容，使当前焦点永远不被键盘遮盖，让用户始终都能看到其输入的内容。 这通常不如尺寸调正可取，因为用户可能需要关闭软键盘以到达被遮盖的窗口部分或与这些部分进行交互。
+
+
+参考：
+1.Activity详解——Activity的xml配置
