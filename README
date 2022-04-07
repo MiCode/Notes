@@ -1,4 +1,10 @@
 【软件设计与体系结构 小组作业】
+2022-4-7 15:34 update:
+更新了AndroidManifest.xml，如下：
+添加了一些声明部分的分析
+添加了意图过滤器的分析
+细化了部分代码阅读内容
+
 2022-4-5 01:14 update：
 解析了AndroidManifest.xml中第一个activity控件的各参数作用
 
