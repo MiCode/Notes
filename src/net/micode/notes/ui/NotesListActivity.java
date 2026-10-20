@@ -300,6 +300,9 @@ public class NotesListActivity extends Activity implements OnClickListener, OnIt
             mNotesListAdapter.setChoiceMode(false);
             mNotesListView.setLongClickable(true);
             mAddNewNote.setVisibility(View.VISIBLE);
+            if (mDropDownMenu != null) {
+                mDropDownMenu.dismiss();
+            }
         }
 
         public void finishActionMode() {
