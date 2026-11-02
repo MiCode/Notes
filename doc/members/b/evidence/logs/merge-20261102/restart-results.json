@@ -1,0 +1,9 @@
+{
+  "note_id": 17,
+  "expected_alert_date": 1793609400000,
+  "ordinary_process_exit_keeps_system_alarm": true,
+  "package_not_stopped_before_reboot": true,
+  "boot_id_changed": true,
+  "same_timestamp_restored": true,
+  "wait_seconds": 102.1
+}

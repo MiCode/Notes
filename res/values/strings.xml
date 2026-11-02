@@ -36,10 +36,10 @@
     <string name="note_link_web">Browse web</string>
     <string name="note_link_other">Open map</string>
     <!-- Text export file information -->
-    <string name="file_path">/MIUI/notes/</string>
-    <string name="file_name_txt_format">notes_%s.txt</string>
+    <string name="file_path" translatable="false">/MIUI/notes/</string>
+    <string name="file_name_txt_format" translatable="false">notes_%s.txt</string>
     <!-- notes list string -->
-    <string name="format_folder_files_count">(%d)</string>
+    <string name="format_folder_files_count" translatable="false">(%d)</string>
     <string name="menu_create_folder">New Folder</string>
     <string name="menu_export_text">Export text</string>
     <string name="menu_sync">Sync</string>
@@ -50,6 +50,7 @@
     <string name="menu_move">Move to folder</string>
     <string name="menu_select_title">%d selected</string>
     <string name="menu_select_none">Nothing selected, the operation is invalid</string>
+    <string name="note_word_count">Characters: %1$d</string>
     <string name="menu_select_all">Select all</string>
     <string name="menu_deselect_all">Deselect all</string>
     <string name="menu_font_size">Font size</string>
@@ -101,7 +102,7 @@
     <string name="preferences_account_title">Sync account</string>
     <string name="preferences_account_summary">Sync notes with google task</string>
     <string name="preferences_last_sync_time">Last sync time %1$s</string>
-    <string name="preferences_last_sync_time_format">yyyy-MM-dd hh:mm:ss</string>
+    <string name="preferences_last_sync_time_format" translatable="false">yyyy-MM-dd hh:mm:ss</string>
     <string name="preferences_add_account">Add account</string>
     <string name="preferences_menu_change_account">Change sync account</string>
     <string name="preferences_menu_remove_account">Remove sync account</string>

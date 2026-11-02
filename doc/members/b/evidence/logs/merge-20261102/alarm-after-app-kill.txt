@@ -1,0 +1,72 @@
+# Relevant excerpts from actual dumpsys alarm
+      operation=PendingIntent{365dfb7: PendingIntentRecord{b143324 com.google.android.gms/com.google.android.gms.core startService}}
+
+    RTC_WAKEUP #13: Alarm{106ee8d type 0 origWhen 1793609400000 whenElapsed 7586578 net.micode.notes}
+
+      tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+      type=RTC_WAKEUP origWhen=2026-11-02 08:50:00.000 window=0 exactAllowReason=permission repeatInterval=0 count=0 flags=0x5
+
+      policyWhenElapsed: requester=+1h57m23s258ms app_standby=-1m41s404ms device_idle=-- battery_saver=-131ms
+
+      whenElapsed=+1h57m23s258ms maxWhenElapsed=+1h57m23s258ms
+
+      operation=PendingIntent{ab0b842: PendingIntentRecord{a6ec053 net.micode.notes broadcastIntent}}
+
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=302, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+
+    ELAPSED #14: Alarm{2f35d90 type 3 origWhen 14452982 whenElapsed 14452982 android}
+
+        Snapshot:
+
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+          policyWhenElapsed: requester=-2m6s3ms app_standby=-2m11s3ms device_idle=-- battery_saver=-2m11s3ms
+
+      #2: Reason=alarm_cancelled elapsed=-2m25s234ms rtc=2026-11-02 06:50:11.508
+
+        Snapshot:
+
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+          policyWhenElapsed: requester=+6d23h57m23s258ms app_standby=-2m25s492ms device_idle=-- battery_saver=-2m25s492ms
+
+      #3: Reason=alarm_cancelled elapsed=-2m25s817ms rtc=2026-11-02 06:50:10.924
+
+        Snapshot:
+
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+          policyWhenElapsed: requester=+1d2h7m23s258ms app_standby=-2m27s278ms device_idle=-- battery_saver=-2m27s278ms
+
+      #4: Reason=alarm_cancelled elapsed=-2m27s696ms rtc=2026-11-02 06:50:09.046
+
+        Snapshot:
+
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+          policyWhenElapsed: requester=+1h57m23s258ms app_standby=-2m27s843ms device_idle=-- battery_saver=-2m27s843ms
+
+
+
+      *alarm*:com.android.server.action.NETWORK_STATS_POLL
+
+    +481ms running, 1 wakeups, 1 alarms: u0a217:net.micode.notes
+
+      *walarm*:net.micode.notes/.ui.AlarmReceiver
+
+    +293ms running, 1 wakeups, 1 alarms: u0a98:com.android.providers.calendar
+
+      *walarm*:com.android.providers.calendar.intent.CalendarProvider2
+
+      *walarm*:ReverseChargingControl
+
+  u0a217:net.micode.notes +481ms running, 1 wakeups:
+
+    +481ms 1 wakes 1 alarms, last -1m49s411ms:
+
+      *walarm*:net.micode.notes/.ui.AlarmReceiver
+
+
+
+  Alarm manager stats:

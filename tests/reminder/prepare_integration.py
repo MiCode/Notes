@@ -1,7 +1,7 @@
-"""Build B against C's reviewed build/compatibility base without merging C into B's PR.
+"""Optional acceptance snapshot of the current committed merged branch.
 
 Run from any directory: python tests/reminder/prepare_integration.py
-The output is a separate, disposable integration checkout under the task workspace.
+Normal builds run in the repository root. Commit the merge before exporting this HEAD snapshot.
 """
 from pathlib import Path
 import io
@@ -12,8 +12,8 @@ from zipfile import ZipFile
 from xml.etree import ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[2]
-BASE='09f4b0fec3444c91f6ec8a9a902cd5e3404ed5e7'
-OUT=ROOT.parent/'.work/b-integration'
+BASE='HEAD'
+OUT=ROOT.parent/'.work/b-current-snapshot'
 def git(*args):
     return subprocess.check_output(['git','-C',str(ROOT),*args])
 OUT.mkdir(parents=True,exist_ok=True)
@@ -21,7 +21,7 @@ with ZipFile(io.BytesIO(git('archive','--format=zip',BASE))) as archive:
     for entry in archive.namelist():
         assert (OUT/entry).resolve().is_relative_to(OUT.resolve())
     archive.extractall(OUT)
-tracked=git('diff','--name-only','81a66024fe48eaa2206b854430856fe3875ff3ba','--','src','res').decode().splitlines()
+tracked=git('diff','--name-only','HEAD','--','src','res').decode().splitlines()
 untracked=git('ls-files','--others','--exclude-standard').decode().splitlines()
 for relative in sorted(set(tracked+untracked)):
     if not relative.startswith(('src/','res/','tests/reminder/')):

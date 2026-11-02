@@ -1,0 +1,54 @@
+// build.gradle —— 根目录即应用模块（单模块工程）
+plugins {
+    id 'com.android.application' version '8.7.3'
+}
+
+android {
+    // AGP 8 要求用 namespace 声明包名（替代旧 Manifest 里的 package）
+    namespace 'net.micode.notes'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "net.micode.notes"
+        minSdk 14
+        targetSdk 34
+        versionCode 1
+        versionName "0.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // 2011 老代码使用 org.apache.http（API 23 起已从框架移除），重新启用遗留库
+    useLibrary 'org.apache.http.legacy'
+
+    // 关键：把 Eclipse 平铺目录映射到 Gradle，源码/资源无需移动
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    // 老工程没有 lint 配置，关闭中断式 lint 避免构建被历史告警打断
+    lint {
+        abortOnError false
+    }
+}
+
+// 本项目使用纯 framework API（Theme.Holo 等），未引用任何 support/androidx 库，
+// 因此无需额外 dependencies。若后续要加库，在此块声明即可。
+dependencies {
+}

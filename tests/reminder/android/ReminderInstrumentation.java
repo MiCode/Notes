@@ -101,6 +101,46 @@ public class ReminderInstrumentation extends Instrumentation {
         main(() -> activity.onOptionsItemSelected(new PopupMenu(activity,
                 activity.getWindow().getDecorView()).getMenu().add(0, id, 0, "test")));
     }
+    private void count(NoteEditActivity activity,String name,int expected) {
+        TextView counter=activity.findViewById(R.id.tv_word_count);
+        check(name,counter.getText().toString().equals(activity.getString(R.string.note_word_count,expected)));
+    }
+    private void wordCountTests(NoteEditActivity activity) throws Exception {
+        main(() -> {
+            TextView counter=activity.findViewById(R.id.tv_word_count);
+            check("merged-word-count-visible",counter!=null && counter.isShown());
+            EditText editor=activity.findViewById(R.id.note_edit_view);
+            editor.setText("");count(activity,"merged-word-count-empty",0);
+            editor.setText("中文测试");count(activity,"merged-word-count-chinese",4);
+            editor.setText("中文ABC 12");count(activity,"merged-word-count-mixed",8);
+            editor.setText("中文\nABC");count(activity,"merged-word-count-excludes-newline",5);
+            editor.setText("中");count(activity,"merged-word-count-delete",1);
+            editor.setText("");count(activity,"merged-word-count-clear",0);
+            editor.setText("甲乙\nABC");
+        });
+        menu(activity,R.id.menu_list_mode);
+        main(() -> {
+            count(activity,"merged-word-count-checklist",5);
+            LinearLayout list=activity.findViewById(R.id.note_edit_list);
+            ((EditText)list.getChildAt(0).findViewById(R.id.et_edit_text)).setText("中");
+            count(activity,"merged-word-count-checklist-edit",4);
+        });
+        menu(activity,R.id.menu_list_mode);
+        main(() -> count(activity,"merged-word-count-normal-mode",4));
+        main(() -> ((InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(),0));
+        getUiAutomation().setRotation(android.app.UiAutomation.ROTATION_FREEZE_90);
+        SystemClock.sleep(1500);
+        main(() -> count(activity,"merged-word-count-landscape",4));
+        shot("merged-word-count-landscape");
+        getUiAutomation().setRotation(android.app.UiAutomation.ROTATION_FREEZE_0);
+        SystemClock.sleep(1500);
+        main(() -> {
+            count(activity,"merged-word-count-portrait",4);
+            ((EditText)activity.findViewById(R.id.note_edit_view)).setText(NOTE_TEXT);
+        });
+        shot("merged-word-count-portrait");
+    }
     private AccessibilityNodeInfo find(AccessibilityNodeInfo root, String prefix) {
         if (root == null) return null;
         if (root.getText() != null && root.getText().toString().startsWith(prefix)) return root;
@@ -254,11 +294,15 @@ public class ReminderInstrumentation extends Instrumentation {
             click(context.getString(names[i]));
             long saved=WorkingNote.load(context,id).getAlertDate();
             check("quick-choice-"+i+"-saved-immediately",Math.abs(saved-expected)<60000);
-            if(i==1) shot("03-tomorrow-saved");
+            if(i==1) {
+                main(() -> count(activity,"merged-word-count-with-reminder",10));
+                shot("03-tomorrow-saved");
+            }
             menu(activity,R.id.menu_delete_remind);
             check("quick-cancel-"+i+"-persisted",WorkingNote.load(context,id).getAlertDate()==0);
         }
         shot("07-cancelled");
+        main(() -> count(activity,"merged-word-count-after-reminder-cancel",10));
         Intent stale=new Intent(context,AlarmReceiver.class).setData(ContentUris.withAppendedId(Notes.CONTENT_NOTE_URI,id));
         check("cancelled-broadcast-rejected",!ReminderScheduler.isCurrentReminder(context,stale));
         menu(activity,R.id.menu_alert);
@@ -402,7 +446,7 @@ public class ReminderInstrumentation extends Instrumentation {
                 cursorTests();
                 long id=createNote(NOTE_TEXT,AppWidgetManager.INVALID_APPWIDGET_ID,Notes.TYPE_WIDGET_INVALIDE);
                 NoteEditActivity activity=edit(id);
-                quickUiTests(activity,id);pickerTests(activity);widgets(activity);
+                wordCountTests(activity);quickUiTests(activity,id);pickerTests(activity);widgets(activity);
                 activity=edit(id);trigger(id);prepareRestart(id);
             }
             result.putInt("failures",0);

@@ -31,30 +31,34 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 
+// 主列表适配器：继承 CursorAdapter，将游标每一行渲染为 NotesListItem，并维护多选状态
 public class NotesListAdapter extends CursorAdapter {
     private static final String TAG = "NotesListAdapter";
     private Context mContext;
-    private HashMap<Integer, Boolean> mSelectedIndex;
-    private int mNotesCount;
-    private boolean mChoiceMode;
+    private HashMap<Integer, Boolean> mSelectedIndex; // position -> 是否被勾选
+    private int mNotesCount;                           // 当前游标中“笔记”类型条目总数（用于全选判断）
+    private boolean mChoiceMode;                       // 是否处于多选模式
 
+    // 用于向 Activity 回传被选笔记所绑定的桌面小部件信息
     public static class AppWidgetAttribute {
         public int widgetId;
         public int widgetType;
     };
 
     public NotesListAdapter(Context context) {
-        super(context, null);
+        super(context, null); // 游标初始为 null，后续 changeCursor 提供
         mSelectedIndex = new HashMap<Integer, Boolean>();
         mContext = context;
         mNotesCount = 0;
     }
 
+    // 创建一行视图：每行都是自定义的 NotesListItem
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return new NotesListItem(context);
     }
 
+    // 绑定数据：用当前游标行构造 NoteItemData，交由 NotesListItem 渲染，并带上选择模式/勾选状态
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         if (view instanceof NotesListItem) {
@@ -64,20 +68,24 @@ public class NotesListAdapter extends CursorAdapter {
         }
     }
 
+    // 记录/更新某个 position 的勾选状态并刷新列表
     public void setCheckedItem(final int position, final boolean checked) {
         mSelectedIndex.put(position, checked);
         notifyDataSetChanged();
     }
 
+    // 是否处于多选模式
     public boolean isInChoiceMode() {
         return mChoiceMode;
     }
 
+    // 进入/退出多选模式：进入前清空历史勾选
     public void setChoiceMode(boolean mode) {
         mSelectedIndex.clear();
         mChoiceMode = mode;
     }
 
+    // 全选/取消全选：仅对“笔记”类型条目生效（文件夹不参与勾选）
     public void selectAll(boolean checked) {
         Cursor cursor = getCursor();
         for (int i = 0; i < getCount(); i++) {
@@ -89,6 +97,7 @@ public class NotesListAdapter extends CursorAdapter {
         }
     }
 
+    // 收集所有被勾选条目对应的笔记 id（过滤掉异常的根文件夹 id）
     public HashSet<Long> getSelectedItemIds() {
         HashSet<Long> itemSet = new HashSet<Long>();
         for (Integer position : mSelectedIndex.keySet()) {
@@ -105,6 +114,7 @@ public class NotesListAdapter extends CursorAdapter {
         return itemSet;
     }
 
+    // 收集所有被勾选笔记所绑定的桌面小部件（id+类型），供删除后刷新
     public HashSet<AppWidgetAttribute> getSelectedWidget() {
         HashSet<AppWidgetAttribute> itemSet = new HashSet<AppWidgetAttribute>();
         for (Integer position : mSelectedIndex.keySet()) {
@@ -118,6 +128,7 @@ public class NotesListAdapter extends CursorAdapter {
                     itemSet.add(widget);
                     /**
                      * Don't close cursor here, only the adapter could close it
+                     * 游标由适配器统一管理，此处不能关闭
                      */
                 } else {
                     Log.e(TAG, "Invalid cursor");
@@ -128,6 +139,7 @@ public class NotesListAdapter extends CursorAdapter {
         return itemSet;
     }
 
+    // 统计被勾选（值为 true）的条目数量
     public int getSelectedCount() {
         Collection<Boolean> values = mSelectedIndex.values();
         if (null == values) {
@@ -143,11 +155,13 @@ public class NotesListAdapter extends CursorAdapter {
         return count;
     }
 
+    // 是否“全选”：有勾选且勾选数等于笔记总数
     public boolean isAllSelected() {
         int checkedCount = getSelectedCount();
         return (checkedCount != 0 && checkedCount == mNotesCount);
     }
 
+    // 查询某 position 是否被勾选（无记录视为未选）
     public boolean isSelectedItem(final int position) {
         if (null == mSelectedIndex.get(position)) {
             return false;
@@ -157,16 +171,19 @@ public class NotesListAdapter extends CursorAdapter {
 
     @Override
     protected void onContentChanged() {
+        // 数据集内容变化后重新计算笔记总数
         super.onContentChanged();
         calcNotesCount();
     }
 
     @Override
     public void changeCursor(Cursor cursor) {
+        // 更换游标后重新计算笔记总数
         super.changeCursor(cursor);
         calcNotesCount();
     }
 
+    // 遍历当前数据，统计 TYPE_NOTE 条目数量，缓存到 mNotesCount
     private void calcNotesCount() {
         mNotesCount = 0;
         for (int i = 0; i < getCount(); i++) {

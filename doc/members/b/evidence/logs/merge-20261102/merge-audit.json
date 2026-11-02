@@ -1,0 +1,26 @@
+{
+  "merge_from": "cbb6ccd7b3dc05ffb916c00a0a19724d56d53671",
+  "previous_b_head": "a920a99c30b8d996af537a97dd5dbe962d792f73",
+  "a_word_count_method_matches_develop": true,
+  "a_text_watcher_matches_develop": true,
+  "c_compatibility_and_build_files_match_develop": [
+    "src/net/micode/notes/gtask",
+    "src/net/micode/notes/ui/NotesListActivity.java",
+    "src/net/micode/notes/ui/NotesListAdapter.java",
+    "src/net/micode/notes/ui/NotesListItem.java",
+    "src/net/micode/notes/ui/NotesPreferenceActivity.java",
+    "build.gradle",
+    "settings.gradle",
+    "gradle.properties"
+  ],
+  "required_permissions_unique": true,
+  "boot_and_exact_permission_recovery_actions_retained": true,
+  "unresolved_conflicts": [],
+  "production_source_file_count": 153,
+  "production_source_sha256": "dfc3763e01d9e1cb11116ec65ffac12dfd4712d82b360b8ded2e60760245ee5e",
+  "android_assertions": 59,
+  "jvm_assertions": 26,
+  "quality_checks": 8,
+  "lint_errors": 0,
+  "lint_warnings": 132
+}
