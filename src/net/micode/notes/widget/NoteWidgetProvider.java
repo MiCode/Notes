@@ -32,6 +32,11 @@ import net.micode.notes.tool.ResourceParser;
 import net.micode.notes.ui.NoteEditActivity;
 import net.micode.notes.ui.NotesListActivity;
 
+/**
+ * B 阶段一阅读标注 胡嘉豪 202430224010
+ * 两种桌面小组件共用的更新骨架：读取便签、绑定 RemoteViews 和点击行为。
+ * 子类提供尺寸对应的布局、背景和类型；本包没有独立的小组件 Service。
+ */
 public abstract class NoteWidgetProvider extends AppWidgetProvider {
     public static final String [] PROJECTION = new String [] {
         NoteColumns.ID,
@@ -47,6 +52,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
+        // B 阅读标注：删除桌面组件时解除数据库中的绑定，不删除便签内容。
         ContentValues values = new ContentValues();
         values.put(NoteColumns.WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         for (int i = 0; i < appWidgetIds.length; i++) {
@@ -58,6 +64,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
     }
 
     private Cursor getNoteWidgetInfo(Context context, int widgetId) {
+        // B 阅读标注：排除回收站便签；返回的 Cursor 由 update 方法负责关闭。
         return context.getContentResolver().query(Notes.CONTENT_NOTE_URI,
                 PROJECTION,
                 NoteColumns.WIDGET_ID + "=? AND " + NoteColumns.PARENT_ID + "<>?",
@@ -71,6 +78,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
 
     private void update(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds,
             boolean privacyMode) {
+        // B 阅读标注：广播回调中逐个刷新组件；数据库查询当前在回调线程执行。
         for (int i = 0; i < appWidgetIds.length; i++) {
             if (appWidgetIds[i] != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 int bgId = ResourceParser.getDefaultBgId(context);
@@ -83,6 +91,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
                 Cursor c = getNoteWidgetInfo(context, appWidgetIds[i]);
                 if (c != null && c.moveToFirst()) {
                     if (c.getCount() > 1) {
+                        // B 阅读标注：这里的 return 会终止整批刷新，后续组件也不会更新。
                         Log.e(TAG, "Multiple message with same widget id:" + appWidgetIds[i]);
                         c.close();
                         return;
@@ -92,6 +101,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
                     intent.putExtra(Intent.EXTRA_UID, c.getLong(COLUMN_ID));
                     intent.setAction(Intent.ACTION_VIEW);
                 } else {
+                    // B 阅读标注：未绑定或便签不可见时，点击组件进入新建便签流程。
                     snippet = context.getResources().getString(R.string.widget_havenot_content);
                     intent.setAction(Intent.ACTION_INSERT_OR_EDIT);
                 }
@@ -101,6 +111,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
                 }
 
                 RemoteViews rv = new RemoteViews(context.getPackageName(), getLayoutId());
+                // B 阅读标注：背景来自 ResourceParser 的颜色索引到资源 ID 的映射。
                 rv.setImageViewResource(R.id.widget_bg_image, getBgResourceId(bgId));
                 intent.putExtra(Notes.INTENT_EXTRA_BACKGROUND_ID, bgId);
                 /**
@@ -108,14 +119,17 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
                  */
                 PendingIntent pendingIntent = null;
                 if (privacyMode) {
+                    // B 阅读标注：隐私分支隐藏摘要；当前公开 update 重载固定传入 false。
                     rv.setTextViewText(R.id.widget_text,
                             context.getString(R.string.widget_under_visit_mode));
                     pendingIntent = PendingIntent.getActivity(context, appWidgetIds[i], new Intent(
-                            context, NotesListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                            context, NotesListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT
+                            | PendingIntent.FLAG_IMMUTABLE);
                 } else {
                     rv.setTextViewText(R.id.widget_text, snippet);
+                    // B 阅读标注：以 widgetId 区分点击 PendingIntent，避免多个组件相互覆盖。
                     pendingIntent = PendingIntent.getActivity(context, appWidgetIds[i], intent,
-                            PendingIntent.FLAG_UPDATE_CURRENT);
+                            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 }
 
                 rv.setOnClickPendingIntent(R.id.widget_text, pendingIntent);

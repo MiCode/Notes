@@ -1,0 +1,83 @@
+{
+  "baseline": "ec380f7c9da0c44d01d16c2284c4e563ba22a8a8",
+  "files": 15,
+  "added": 452,
+  "deleted": 77,
+  "records": [
+    {
+      "file": "AndroidManifest.xml",
+      "added": 3,
+      "deleted": 0
+    },
+    {
+      "file": "res/drawable/ic_reminder_notification.xml",
+      "added": 8,
+      "deleted": 0
+    },
+    {
+      "file": "res/values-zh-rCN/reminders.xml",
+      "added": 15,
+      "deleted": 0
+    },
+    {
+      "file": "res/values-zh-rTW/reminders.xml",
+      "added": 15,
+      "deleted": 0
+    },
+    {
+      "file": "res/values/reminders.xml",
+      "added": 15,
+      "deleted": 0
+    },
+    {
+      "file": "src/net/micode/notes/tool/DataUtils.java",
+      "added": 12,
+      "deleted": 11
+    },
+    {
+      "file": "src/net/micode/notes/tool/QuickReminder.java",
+      "added": 44,
+      "deleted": 0
+    },
+    {
+      "file": "src/net/micode/notes/tool/ReminderScheduler.java",
+      "added": 136,
+      "deleted": 0
+    },
+    {
+      "file": "src/net/micode/notes/ui/AlarmAlertActivity.java",
+      "added": 23,
+      "deleted": 10
+    },
+    {
+      "file": "src/net/micode/notes/ui/AlarmInitReceiver.java",
+      "added": 16,
+      "deleted": 15
+    },
+    {
+      "file": "src/net/micode/notes/ui/AlarmReceiver.java",
+      "added": 9,
+      "deleted": 0
+    },
+    {
+      "file": "src/net/micode/notes/ui/DateTimePicker.java",
+      "added": 18,
+      "deleted": 14
+    },
+    {
+      "file": "src/net/micode/notes/ui/DateTimePickerDialog.java",
+      "added": 30,
+      "deleted": 10
+    },
+    {
+      "file": "src/net/micode/notes/ui/NoteEditActivity.java",
+      "added": 105,
+      "deleted": 15
+    },
+    {
+      "file": "src/net/micode/notes/widget/NoteWidgetProvider.java",
+      "added": 3,
+      "deleted": 2
+    }
+  ]
+}

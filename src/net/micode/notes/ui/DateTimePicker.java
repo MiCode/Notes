@@ -104,13 +104,14 @@ public class DateTimePicker extends FrameLayout {
                     isDateChanged = true;
                 }
             }
-            int newHour = mHourSpinner.getValue() % HOURS_IN_HALF_DAY + (mIsAm ? 0 : HOURS_IN_HALF_DAY);
-            mDate.set(Calendar.HOUR_OF_DAY, newHour);
-            onDateTimeChanged();
+            int newHour = mIs24HourView ? newVal
+                    : newVal % HOURS_IN_HALF_DAY + (mIsAm ? 0 : HOURS_IN_HALF_DAY);
             if (isDateChanged) {
-                setCurrentYear(cal.get(Calendar.YEAR));
-                setCurrentMonth(cal.get(Calendar.MONTH));
-                setCurrentDay(cal.get(Calendar.DAY_OF_MONTH));
+                setCurrentDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH), newHour, getCurrentMinute());
+            } else {
+                mDate.set(Calendar.HOUR_OF_DAY, newHour);
+                onDateTimeChanged();
             }
         }
     };
@@ -175,7 +176,7 @@ public class DateTimePicker extends FrameLayout {
         super(context);
         mDate = Calendar.getInstance();
         mInitialising = true;
-        mIsAm = getCurrentHourOfDay() >= HOURS_IN_HALF_DAY;
+        mIsAm = getCurrentHourOfDay() < HOURS_IN_HALF_DAY;
         inflate(context, R.layout.datetime_picker, this);
 
         mDateSpinner = (NumberPicker) findViewById(R.id.date);
@@ -264,11 +265,15 @@ public class DateTimePicker extends FrameLayout {
      */
     public void setCurrentDate(int year, int month,
             int dayOfMonth, int hourOfDay, int minute) {
-        setCurrentYear(year);
-        setCurrentMonth(month);
-        setCurrentDay(dayOfMonth);
-        setCurrentHour(hourOfDay);
-        setCurrentMinute(minute);
+        // Assign all fields before Calendar normalizes them (Jan 31 -> Feb 1, leap years).
+        mDate.clear();
+        mDate.set(year, month, dayOfMonth, hourOfDay, minute, 0);
+        mIsAm = getCurrentHourOfDay() < HOURS_IN_HALF_DAY;
+        updateDateControl();
+        mHourSpinner.setValue(getCurrentHour());
+        mMinuteSpinner.setValue(getCurrentMinute());
+        updateAmPmControl();
+        onDateTimeChanged();
     }
 
     /**
@@ -428,9 +433,8 @@ public class DateTimePicker extends FrameLayout {
         }
         mIs24HourView = is24HourView;
         mAmPmSpinner.setVisibility(is24HourView ? View.GONE : View.VISIBLE);
-        int hour = getCurrentHourOfDay();
         updateHourControl();
-        setCurrentHour(hour);
+        mHourSpinner.setValue(getCurrentHour());
         updateAmPmControl();
     }
 

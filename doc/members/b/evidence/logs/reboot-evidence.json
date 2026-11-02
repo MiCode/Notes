@@ -1,0 +1,8 @@
+{
+  "actual_device_reboot": true,
+  "package_not_force_stopped_before_reboot": true,
+  "note_id": 9,
+  "expected_alert_date": 1793112300000,
+  "same_timestamp_registered_by_boot_receiver": true,
+  "wait_seconds": 93.1
+}

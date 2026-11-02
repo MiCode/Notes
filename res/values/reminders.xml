@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reminder_choose_time">Remind me</string>
+    <string name="reminder_in_two_hours">In 2 hours</string>
+    <string name="reminder_tomorrow_morning">Tomorrow at 9:00 AM</string>
+    <string name="reminder_next_week">In one week</string>
+    <string name="reminder_custom_time">Custom date and time</string>
+    <string name="reminder_time_in_past">Choose a time in the future</string>
+    <string name="reminder_channel_name">Note reminders</string>
+    <string name="reminder_exact_title">Remind me on time</string>
+    <string name="reminder_exact_message">Allow alarms and reminders in system settings to be reminded on time. Otherwise, the system may delay this reminder.</string>
+    <string name="reminder_open_settings">Open settings</string>
+    <string name="reminder_allow_delay">Continue with possible delay</string>
+    <string name="reminder_notification_denied">Notification permission was not granted. No reminder was set.</string>
+</resources>

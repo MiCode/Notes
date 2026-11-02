@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reminder_choose_time">設定提醒</string>
+    <string name="reminder_in_two_hours">2 小時後</string>
+    <string name="reminder_tomorrow_morning">明天上午 9:00</string>
+    <string name="reminder_next_week">一週後</string>
+    <string name="reminder_custom_time">自訂日期和時間</string>
+    <string name="reminder_time_in_past">請選擇晚於目前時間的提醒時間</string>
+    <string name="reminder_channel_name">便籤提醒</string>
+    <string name="reminder_exact_title">準時收到提醒</string>
+    <string name="reminder_exact_message">請在系統設定中允許「鬧鐘和提醒」，以便準時提醒。暫不開啟時，系統可能延遲提醒。</string>
+    <string name="reminder_open_settings">前往開啟</string>
+    <string name="reminder_allow_delay">繼續，允許延遲</string>
+    <string name="reminder_notification_denied">未允許通知，提醒尚未設定。</string>
+</resources>

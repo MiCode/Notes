@@ -46,6 +46,7 @@
     <string name="menu_move">移动到文件夹</string>
     <string name="menu_select_title">选中了 %d 项</string>
     <string name="menu_select_none">没有选中项，操作无效</string>
+    <string name="note_word_count">字数：%1$d</string>
     <string name="menu_select_all">全选</string>
     <string name="menu_deselect_all">取消全选</string>
     <string name="menu_font_size">文字大小</string>

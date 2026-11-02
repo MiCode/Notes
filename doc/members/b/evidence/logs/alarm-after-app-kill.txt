@@ -1,0 +1,67 @@
+# Excerpts from actual adb shell dumpsys alarm; unrelated emulator services omitted.
+      whenElapsed=+1h18m11s770ms maxWhenElapsed=+2h18m11s770ms
+      operation=PendingIntent{c653e7d: PendingIntentRecord{1d3e172 com.google.android.gms/com.google.android.gms.core startService}}
+    RTC_WAKEUP #11: Alarm{613e9c3 type 0 origWhen 1793112300000 whenElapsed 8899252 net.micode.notes}
+      tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+      type=RTC_WAKEUP origWhen=2026-10-27 14:45:00.000 window=0 exactAllowReason=permission repeatInterval=0 count=0 flags=0x5
+      policyWhenElapsed: requester=+1h58m33s313ms app_standby=-51s967ms device_idle=-- battery_saver=-51s886ms
+      whenElapsed=+1h58m33s313ms maxWhenElapsed=+1h58m33s313ms
+      operation=PendingIntent{7862240: PendingIntentRecord{c4579 net.micode.notes broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=302, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    ELAPSED #12: Alarm{6faa2be type 3 origWhen 14530843 whenElapsed 14530843 android}
+      tag=*alarm*:PowerStats
+      type=ELAPSED origWhen=+3h32m24s904ms window=+1h0m0s0ms repeatInterval=0 count=0 flags=0x8
+      policyWhenElapsed: requester=+3h32m24s904ms app_standby=-27m24s501ms device_idle=-- battery_saver=--
+      #1: Reason=alarm_cancelled elapsed=-1m18s478ms rtc=2026-10-27 12:45:08.210
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=-1m13s503ms app_standby=-1m18s503ms device_idle=-- battery_saver=-1m18s503ms
+      #2: Reason=alarm_cancelled elapsed=-1m28s563ms rtc=2026-10-27 12:44:58.125
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+6d23h57m33s312ms app_standby=-1m28s794ms device_idle=-- battery_saver=-1m28s794ms
+      #3: Reason=alarm_cancelled elapsed=-1m29s290ms rtc=2026-10-27 12:44:57.398
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+20h13m33s313ms app_standby=-1m29s993ms device_idle=-- battery_saver=-1m29s993ms
+      #4: Reason=alarm_cancelled elapsed=-1m30s597ms rtc=2026-10-27 12:44:56.090
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+1h57m33s313ms app_standby=-1m30s697ms device_idle=-- battery_saver=-1m30s697ms
+      #5: Reason=alarm_cancelled elapsed=-5m31s244ms rtc=2026-10-27 12:40:55.443
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+6d23h53m33s313ms app_standby=-5m31s471ms device_idle=-- battery_saver=-5m31s471ms
+      #6: Reason=alarm_cancelled elapsed=-5m32s31ms rtc=2026-10-27 12:40:54.657
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+20h13m33s313ms app_standby=-5m32s745ms device_idle=-- battery_saver=-5m32s745ms
+      #7: Reason=alarm_cancelled elapsed=-5m33s282ms rtc=2026-10-27 12:40:53.406
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+1h53m33s313ms app_standby=-5m33s466ms device_idle=-- battery_saver=-5m33s466ms
+      #8: Reason=alarm_cancelled elapsed=-7m1s516ms rtc=2026-10-27 12:39:25.172
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+6d23h52m33s312ms app_standby=-7m1s786ms device_idle=-- battery_saver=-7m1s786ms
+      #9: Reason=alarm_cancelled elapsed=-7m2s316ms rtc=2026-10-27 12:39:24.371
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+20h13m33s313ms app_standby=-7m3s298ms device_idle=-- battery_saver=-7m3s298ms
+      #10: Reason=alarm_cancelled elapsed=-7m3s978ms rtc=2026-10-27 12:39:22.710
+        Snapshot:
+          type=RTC_WAKEUP tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+          policyWhenElapsed: requester=+1h52m33s313ms app_standby=-7m4s99ms device_idle=-- battery_saver=-7m4s99ms
+
+  Top Alarms:
+    +11s648ms running, 0 wakeups, 21 alarms: u0a147:com.google.android.gms
+      *alarm*:com.google.android.gms.gcm.ACTION_CHECK_QUEUE
+    +3s680ms 1 wakes 1 alarms, last -27m1s838ms:
+      *walarm*:ReverseChargingControl
+  u0a217:net.micode.notes +436ms running, 1 wakeups:
+    +436ms 1 wakes 1 alarms, last -56s940ms:
+      *walarm*:net.micode.notes/.ui.AlarmReceiver
+
+  Alarm manager stats:
+    REORDER_ALARMS_FOR_STANDBY: count=308, total=84.5ms, avg=0.274ms, max calls/s=153 max dur/s=34.2ms max time=30.5ms
+    HAS_SCHEDULE_EXACT_ALARM: count=75, total=16.3ms, avg=0.217ms, max calls/s=5 max dur/s=5.5ms max time=5.5ms

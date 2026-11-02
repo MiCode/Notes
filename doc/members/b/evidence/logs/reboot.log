@@ -1,0 +1,3 @@
+PASS after_reboot-database-survives
+PASS after_reboot-database-survives
+RESULT: 1 passed, 0 failed

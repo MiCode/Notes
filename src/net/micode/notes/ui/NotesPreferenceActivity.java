@@ -16,6 +16,7 @@
 
 package net.micode.notes.ui;
 
+import android.annotation.SuppressLint;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ActionBar;
@@ -27,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -81,11 +83,21 @@ public class NotesPreferenceActivity extends PreferenceActivity {
         mReceiver = new GTaskReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(GTaskSyncService.GTASK_SERVICE_BROADCAST_NAME);
-        registerReceiver(mReceiver, filter);
+        registerSyncReceiver(filter);
 
         mOriAccounts = null;
         View header = LayoutInflater.from(this).inflate(R.layout.settings_header, null);
         getListView().addHeaderView(header, null, true);
+    }
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    private void registerSyncReceiver(IntentFilter filter) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(mReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            // Receiver flags are unavailable before API 33; this receiver is app-local by action.
+            registerReceiver(mReceiver, filter);
+        }
     }
 
     @Override

@@ -28,7 +28,16 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+import net.micode.notes.tool.QuickReminder;
 
+/**
+ * B 阶段一阅读标注 胡嘉豪 202430224010
+ * 包装日期时间控件，通过监听器向编辑页交付毫秒时间戳。
+ * 本类只负责选择与标题展示，保存便签和注册闹钟在模型及编辑页中完成。
+ */
 public class DateTimePickerDialog extends AlertDialog implements OnClickListener {
 
     private Calendar mDate = Calendar.getInstance();
@@ -37,6 +46,7 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
     private DateTimePicker mDateTimePicker;
 
     public interface OnDateTimeSetListener {
+        // B 阅读标注：date 是 Unix 毫秒时间戳，月份转换由 Calendar 和控件处理。
         void OnDateTimeSet(AlertDialog dialog, long date);
     }
 
@@ -47,16 +57,17 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
         mDateTimePicker.setOnDateTimeChangedListener(new OnDateTimeChangedListener() {
             public void onDateTimeChanged(DateTimePicker view, int year, int month,
                     int dayOfMonth, int hourOfDay, int minute) {
-                mDate.set(Calendar.YEAR, year);
-                mDate.set(Calendar.MONTH, month);
-                mDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                mDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                mDate.set(Calendar.MINUTE, minute);
+                // B 阅读标注：每次滚轮变化同步 Calendar，并刷新对话框标题。
+                // Assign the complete date together: setting February while the
+                // previous day is January 31 would otherwise normalize into March.
+                mDate.clear();
+                mDate.set(year, month, dayOfMonth, hourOfDay, minute, 0);
                 updateTitle(mDate.getTimeInMillis());
             }
         });
         mDate.setTimeInMillis(date);
         mDate.set(Calendar.SECOND, 0);
+        mDate.set(Calendar.MILLISECOND, 0);
         mDateTimePicker.setCurrentDate(mDate.getTimeInMillis());
         setButton(context.getString(R.string.datetime_dialog_ok), this);
         setButton2(context.getString(R.string.datetime_dialog_cancel), (OnClickListener)null);
@@ -66,6 +77,8 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
 
     public void set24HourView(boolean is24HourView) {
         mIs24HourView = is24HourView;
+        mDateTimePicker.set24HourView(is24HourView);
+        updateTitle(mDate.getTimeInMillis());
     }
 
     public void setOnDateTimeSetListener(OnDateTimeSetListener callBack) {
@@ -77,14 +90,32 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
             DateUtils.FORMAT_SHOW_YEAR |
             DateUtils.FORMAT_SHOW_DATE |
             DateUtils.FORMAT_SHOW_TIME;
-        flag |= mIs24HourView ? DateUtils.FORMAT_24HOUR : DateUtils.FORMAT_24HOUR;
+        // Q-B-01: keep the title consistent with the picker and the system clock format.
+        flag |= mIs24HourView ? DateUtils.FORMAT_24HOUR : DateUtils.FORMAT_12HOUR;
         setTitle(DateUtils.formatDateTime(this.getContext(), date, flag));
     }
 
     public void onClick(DialogInterface arg0, int arg1) {
+        mDateTimePicker.clearFocus();
+        if (!QuickReminder.isFuture(mDate.getTimeInMillis(), System.currentTimeMillis())) {
+            Toast.makeText(getContext(), R.string.reminder_time_in_past, Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (mOnDateTimeSetListener != null) {
             mOnDateTimeSetListener.OnDateTimeSet(this, mDate.getTimeInMillis());
         }
+        dismiss();
+    }
+
+    @Override
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
+        // AlertDialog's default listener dismisses even when validation fails.
+        getButton(BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                DateTimePickerDialog.this.onClick(DateTimePickerDialog.this, BUTTON_POSITIVE);
+            }
+        });
     }
 
 }

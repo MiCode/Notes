@@ -1,0 +1,48 @@
+@startuml
+title “便签置顶”维护项设计类图
+skinparam classAttributeIconSize 0
+
+class NotesListActivity #LightGreen {
+  - mFocusNoteDataItem : NoteItemData
+  - mPinMenu : MenuItem
+  - startAsyncNotesListQuery()
+  - setSelectedNotesPinned(pinned : boolean)
+}
+
+class NotesListAdapter {
+  + getSelectedItemIds() : HashSet<Long>
+  + getSelectedCount() : int
+}
+
+class NoteItemData #LightGreen {
+  - mPinned : boolean
+  + isPinned() : boolean
+}
+
+class NotesListItem #LightGreen {
+  + bind(context, data, choiceMode, checked)
+}
+
+class NotesProvider {
+  + query(...)
+  + update(...)
+}
+
+class NotesDatabaseHelper #LightGreen {
+  - DB_VERSION = 5
+  - upgradeToV5(db)
+}
+
+interface "Notes.NoteColumns" as NoteColumns #LightGreen {
+  PINNED = "pinned"
+}
+
+NotesListActivity --> NotesListAdapter : 取得已选 ID
+NotesListActivity --> NoteItemData : 判断当前置顶状态
+NotesListActivity --> NotesProvider : ContentResolver 批量更新/查询
+NotesListAdapter --> NoteItemData : 构造列表数据
+NotesListItem --> NoteItemData : 显示时钟或星标
+NotesProvider --> NotesDatabaseHelper : 访问 note 表
+NoteItemData ..> NoteColumns : 查询 pinned 列
+NotesDatabaseHelper ..> NoteColumns : 建表与数据库迁移
+@enduml

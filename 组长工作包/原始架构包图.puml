@@ -1,0 +1,28 @@
+@startuml
+title MiCode Notes 原始包级架构图
+skinparam packageStyle rectangle
+
+package "ui\n界面与交互" as ui
+package "model\n编辑领域模型" as model
+package "data\nProvider + SQLite" as data
+package "tool\n数据操作/备份/资源解析" as tool
+package "widget\n桌面小组件" as widget
+package "gtask\nGoogle Task 同步" as gtask {
+  package "gtask.data\n同步数据模型" as gdata
+  package "gtask.remote\n远端通信" as remote
+}
+package "res\n布局/菜单/字符串/图片" as res
+
+ui --> model : 编辑/保存便签
+ui --> data : ContentResolver 查询更新
+ui --> tool : 批量操作/导出
+ui ..> res : 加载界面资源
+model --> data : 读写便签与数据行
+tool --> data : 统一数据操作
+widget --> model : 创建/打开便签
+widget --> data : 查询内容
+widget ..> res : 小组件资源
+remote --> gdata : 构造/解析远端节点
+gtask --> data : 本地数据同步
+gtask --> tool : 数据辅助
+@enduml

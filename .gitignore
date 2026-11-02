@@ -7,3 +7,18 @@ project.properties
 .settings/
 .classpath
 .project
+
+# ===== 本地 Gradle 重构（个人目录，勿提交到团队仓库）=====
+.gradle/
+build/
+local.properties
+
+# Android Studio / IntelliJ 工程文件
+.idea/
+*.iml
+
+# 备份与杂项
+*.bak
+captures/
+.externalNativeBuild/
+.cxx/

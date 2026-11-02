@@ -1,0 +1,5 @@
+PASS exact-alarm-access-denied
+PASS inexact-fallback-saved-without-crash
+PASS exact-alarm-access-denied
+PASS inexact-fallback-saved-without-crash
+RESULT: 2 passed, 0 failed

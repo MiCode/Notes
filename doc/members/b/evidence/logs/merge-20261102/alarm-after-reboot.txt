@@ -1,0 +1,18 @@
+# Relevant excerpts from actual dumpsys alarm
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=302, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+
+    RTC_WAKEUP #13: Alarm{e2e4491 type 0 origWhen 1793609400000 whenElapsed 7023564 net.micode.notes}
+
+      tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+      type=RTC_WAKEUP origWhen=2026-11-02 08:50:00.000 window=0 exactAllowReason=permission repeatInterval=0 count=0 flags=0x5
+
+      policyWhenElapsed: requester=+1h55m30s218ms app_standby=-2s115ms device_idle=-- battery_saver=-2s115ms
+
+      whenElapsed=+1h55m30s218ms maxWhenElapsed=+1h55m30s218ms
+
+      operation=PendingIntent{bbd8ff6: PendingIntentRecord{fd76ff7 net.micode.notes broadcastIntent}}
+
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=302, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+
+    ELAPSED #14: Alarm{54c51b8 type 3 origWhen 14439938 whenElapsed 14439938 android}

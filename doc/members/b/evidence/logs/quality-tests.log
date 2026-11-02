@@ -1,0 +1,13 @@
+test_invalidated_token_is_replaced_by_refreshed_token (test_gtask_source_regressions.GTaskSourceRegressionTests.test_invalidated_token_is_replaced_by_refreshed_token) ... ok
+test_service_checks_restart_intent_before_reading_extras (test_gtask_source_regressions.GTaskSourceRegressionTests.test_service_checks_restart_intent_before_reading_extras) ... ok
+test_sync_notification_uses_supported_builder_and_channel (test_gtask_source_regressions.GTaskSourceRegressionTests.test_sync_notification_uses_supported_builder_and_channel) ... ok
+test_sync_progress_broadcast_is_limited_to_this_application (test_gtask_source_regressions.GTaskSourceRegressionTests.test_sync_progress_broadcast_is_limited_to_this_application) ... ok
+test_all_pending_intents_declare_mutability (test_repository_hygiene.RepositoryHygieneTests.test_all_pending_intents_declare_mutability) ... ok
+test_android_xml_files_are_well_formed (test_repository_hygiene.RepositoryHygieneTests.test_android_xml_files_are_well_formed) ... ok
+test_manifest_components_with_intent_filters_declare_exported (test_repository_hygiene.RepositoryHygieneTests.test_manifest_components_with_intent_filters_declare_exported) ... ok
+test_no_merge_conflict_markers_in_source_or_resources (test_repository_hygiene.RepositoryHygieneTests.test_no_merge_conflict_markers_in_source_or_resources) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.264s
+
+OK

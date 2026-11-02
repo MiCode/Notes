@@ -1,0 +1,260 @@
+diff --git a/src/net/micode/notes/data/Notes.java b/src/net/micode/notes/data/Notes.java
+index f240604..0000000 100644
+--- a/src/net/micode/notes/data/Notes.java
++++ b/src/net/micode/notes/data/Notes.java
+@@ -160,6 +160,12 @@ public class Notes {
+          */
+         public static final String GTASK_ID = "gtask_id";
+ 
++        /**
++         * Whether this note is pinned to the top of its folder
++         * <P> Type : INTEGER, 1 for pinned and 0 for normal </P>
++         */
++        public static final String PINNED = "pinned";
++
+         /**
+          * The version code
+          * <P> Type : INTEGER (long) </P>
+diff --git a/src/net/micode/notes/data/NotesDatabaseHelper.java b/src/net/micode/notes/data/NotesDatabaseHelper.java
+index 2c65f37..0000000 100644
+--- a/src/net/micode/notes/data/NotesDatabaseHelper.java
++++ b/src/net/micode/notes/data/NotesDatabaseHelper.java
+@@ -31,6 +31,6 @@ public class NotesDatabaseHelper extends SQLiteOpenHelper {
+     private static final String DB_NAME = "note.db";
+ 
+-    private static final int DB_VERSION = 4;
++    private static final int DB_VERSION = 5;
+ 
+     public interface TABLE {
+         public static final String NOTE = "note";
+@@ -60,6 +60,7 @@ public class NotesDatabaseHelper extends SQLiteOpenHelper {
+             NoteColumns.LOCAL_MODIFIED + " INTEGER NOT NULL DEFAULT 0," +
+             NoteColumns.ORIGIN_PARENT_ID + " INTEGER NOT NULL DEFAULT 0," +
+             NoteColumns.GTASK_ID + " TEXT NOT NULL DEFAULT ''," +
++            NoteColumns.PINNED + " INTEGER NOT NULL DEFAULT 0," +
+             NoteColumns.VERSION + " INTEGER NOT NULL DEFAULT 0" +
+         ")";
+ 
+@@ -322,6 +323,11 @@ public class NotesDatabaseHelper extends SQLiteOpenHelper {
+             oldVersion++;
+         }
+ 
++        if (oldVersion == 4) {
++            upgradeToV5(db);
++            oldVersion++;
++        }
++
+         if (reCreateTriggers) {
+             reCreateNoteTableTriggers(db);
+             reCreateDataTableTriggers(db);
+@@ -359,4 +365,9 @@ public class NotesDatabaseHelper extends SQLiteOpenHelper {
+         db.execSQL("ALTER TABLE " + TABLE.NOTE + " ADD COLUMN " + NoteColumns.VERSION
+                 + " INTEGER NOT NULL DEFAULT 0");
+     }
++
++    private void upgradeToV5(SQLiteDatabase db) {
++        db.execSQL("ALTER TABLE " + TABLE.NOTE + " ADD COLUMN " + NoteColumns.PINNED
++                + " INTEGER NOT NULL DEFAULT 0");
++    }
+ }
+diff --git a/src/net/micode/notes/ui/NoteItemData.java b/src/net/micode/notes/ui/NoteItemData.java
+index b3e0d70..0000000 100644
+--- a/src/net/micode/notes/ui/NoteItemData.java
++++ b/src/net/micode/notes/ui/NoteItemData.java
+@@ -40,6 +40,7 @@ public class NoteItemData {
+         NoteColumns.TYPE,
+         NoteColumns.WIDGET_ID,
+         NoteColumns.WIDGET_TYPE,
++        NoteColumns.PINNED,
+     };
+ 
+     private static final int ID_COLUMN                    = 0;
+@@ -54,6 +55,7 @@ public class NoteItemData {
+     private static final int TYPE_COLUMN                  = 9;
+     private static final int WIDGET_ID_COLUMN             = 10;
+     private static final int WIDGET_TYPE_COLUMN           = 11;
++    private static final int PINNED_COLUMN                = 12;
+ 
+     private long mId;
+     private long mAlertDate;
+@@ -69,6 +71,7 @@ public class NoteItemData {
+     private int mWidgetType;
+     private String mName;
+     private String mPhoneNumber;
++    private boolean mPinned;
+ 
+     private boolean mIsLastItem;
+     private boolean mIsFirstItem;
+@@ -91,6 +94,7 @@ public class NoteItemData {
+         mType = cursor.getInt(TYPE_COLUMN);
+         mWidgetId = cursor.getInt(WIDGET_ID_COLUMN);
+         mWidgetType = cursor.getInt(WIDGET_TYPE_COLUMN);
++        mPinned = cursor.getInt(PINNED_COLUMN) > 0;
+ 
+         mPhoneNumber = "";
+         if (mParentId == Notes.ID_CALL_RECORD_FOLDER) {
+@@ -214,6 +218,10 @@ public class NoteItemData {
+         return (mAlertDate > 0);
+     }
+ 
++    public boolean isPinned() {
++        return mPinned;
++    }
++
+     public boolean isCallRecord() {
+         return (mParentId == Notes.ID_CALL_RECORD_FOLDER && !TextUtils.isEmpty(mPhoneNumber));
+     }
+diff --git a/src/net/micode/notes/ui/NotesListActivity.java b/src/net/micode/notes/ui/NotesListActivity.java
+index e843aec..0000000 100644
+--- a/src/net/micode/notes/ui/NotesListActivity.java
++++ b/src/net/micode/notes/ui/NotesListActivity.java
+@@ -235,10 +235,15 @@ public class NotesListActivity extends Activity implements OnClickListener, OnIt
+         private DropdownMenu mDropDownMenu;
+         private ActionMode mActionMode;
+         private MenuItem mMoveMenu;
++        private MenuItem mPinMenu;
+ 
+         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+             getMenuInflater().inflate(R.menu.note_list_options, menu);
+             menu.findItem(R.id.delete).setOnMenuItemClickListener(this);
++            mPinMenu = menu.findItem(R.id.pin);
++            mPinMenu.setTitle(mFocusNoteDataItem.isPinned()
++                    ? R.string.menu_unpin : R.string.menu_pin);
++            mPinMenu.setOnMenuItemClickListener(this);
+             mMoveMenu = menu.findItem(R.id.move);
+             if (mFocusNoteDataItem.getParentId() == Notes.ID_CALL_RECORD_FOLDER
+                     || DataUtils.getUserFolderCount(mContentResolver) == 0) {
+@@ -339,6 +344,9 @@ public class NotesListActivity extends Activity implements OnClickListener, OnIt
+                 case R.id.move:
+                     startQueryDestinationFolders();
+                     break;
++                case R.id.pin:
++                    setSelectedNotesPinned(!mFocusNoteDataItem.isPinned());
++                    break;
+                 default:
+                     return false;
+             }
+@@ -415,6 +423,38 @@ public class NotesListActivity extends Activity implements OnClickListener, OnIt
+                 Notes.CONTENT_NOTE_URI, NoteItemData.PROJECTION, selection, new String[] {
+                     String.valueOf(mCurrentFolderId)
+-                }, NoteColumns.TYPE + " DESC," + NoteColumns.MODIFIED_DATE + " DESC");
++                }, NoteColumns.TYPE + " DESC," + NoteColumns.PINNED + " DESC,"
++                        + NoteColumns.MODIFIED_DATE + " DESC");
++    }
++
++    private void setSelectedNotesPinned(boolean pinned) {
++        HashSet<Long> ids = mNotesListAdapter.getSelectedItemIds();
++        if (ids == null || ids.isEmpty()) {
++            return;
++        }
++
++        StringBuilder selection = new StringBuilder(NoteColumns.ID).append(" IN (");
++        String[] selectionArgs = new String[ids.size()];
++        int index = 0;
++        for (Long id : ids) {
++            if (index > 0) {
++                selection.append(",");
++            }
++            selection.append("?");
++            selectionArgs[index] = String.valueOf(id);
++            index++;
++        }
++        selection.append(")");
++
++        ContentValues values = new ContentValues();
++        values.put(NoteColumns.PINNED, pinned ? 1 : 0);
++        int updated = mContentResolver.update(Notes.CONTENT_NOTE_URI, values,
++                selection.toString(), selectionArgs);
++        if (updated > 0) {
++            Toast.makeText(this, pinned ? R.string.pinned_success : R.string.unpinned_success,
++                    Toast.LENGTH_SHORT).show();
++        }
++        mModeCallBack.finishActionMode();
++        startAsyncNotesListQuery();
+     }
+ 
+     private final class BackgroundQueryHandler extends AsyncQueryHandler {
+diff --git a/src/net/micode/notes/ui/NotesListItem.java b/src/net/micode/notes/ui/NotesListItem.java
+index 1221e80..0000000 100644
+--- a/src/net/micode/notes/ui/NotesListItem.java
++++ b/src/net/micode/notes/ui/NotesListItem.java
+@@ -72,6 +72,9 @@ public class NotesListItem extends LinearLayout {
+             if (data.hasAlert()) {
+                 mAlert.setImageResource(R.drawable.clock);
+                 mAlert.setVisibility(View.VISIBLE);
++            } else if (data.isPinned()) {
++                mAlert.setImageResource(android.R.drawable.btn_star_big_on);
++                mAlert.setVisibility(View.VISIBLE);
+             } else {
+                 mAlert.setVisibility(View.GONE);
+             }
+@@ -89,6 +92,9 @@ public class NotesListItem extends LinearLayout {
+                 if (data.hasAlert()) {
+                     mAlert.setImageResource(R.drawable.clock);
+                     mAlert.setVisibility(View.VISIBLE);
++                } else if (data.isPinned()) {
++                    mAlert.setImageResource(android.R.drawable.btn_star_big_on);
++                    mAlert.setVisibility(View.VISIBLE);
+                 } else {
+                     mAlert.setVisibility(View.GONE);
+                 }
+diff --git a/res/menu/note_list_options.xml b/res/menu/note_list_options.xml
+index daac008..0000000 100644
+--- a/res/menu/note_list_options.xml
++++ b/res/menu/note_list_options.xml
+@@ -18,5 +18,10 @@
+ <menu
+     xmlns:android="http://schemas.android.com/apk/res/android">
++    <item
++        android:id="@+id/pin"
++        android:title="@string/menu_pin"
++        android:showAsAction="ifRoom|withText" />
++
+     <item
+         android:id="@+id/move"
+         android:title="@string/menu_move"
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 55df868..0000000 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -48,6 +48,10 @@
+     <string name="menu_search">Search</string>
+     <string name="menu_delete">Delete</string>
+     <string name="menu_move">Move to folder</string>
++    <string name="menu_pin">Pin</string>
++    <string name="menu_unpin">Unpin</string>
++    <string name="pinned_success">Note pinned</string>
++    <string name="unpinned_success">Note unpinned</string>
+     <string name="menu_select_title">%d selected</string>
+     <string name="menu_select_none">Nothing selected, the operation is invalid</string>
+     <string name="menu_select_all">Select all</string>
+diff --git a/res/values-zh-rCN/strings.xml b/res/values-zh-rCN/strings.xml
+index 773d855..0000000 100644
+--- a/res/values-zh-rCN/strings.xml
++++ b/res/values-zh-rCN/strings.xml
+@@ -44,6 +44,10 @@
+     <string name="menu_search">搜索</string>
+     <string name="menu_delete">删除</string>
+     <string name="menu_move">移动到文件夹</string>
++    <string name="menu_pin">置顶</string>
++    <string name="menu_unpin">取消置顶</string>
++    <string name="pinned_success">已置顶</string>
++    <string name="unpinned_success">已取消置顶</string>
+     <string name="menu_select_title">选中了 %d 项</string>
+     <string name="menu_select_none">没有选中项，操作无效</string>
+     <string name="menu_select_all">全选</string>
+diff --git a/res/values-zh-rTW/strings.xml b/res/values-zh-rTW/strings.xml
+index 0c70448..0000000 100644
+--- a/res/values-zh-rTW/strings.xml
++++ b/res/values-zh-rTW/strings.xml
+@@ -45,6 +45,10 @@
+     <string name="menu_search">搜尋</string>
+     <string name="menu_delete">刪除</string>
+     <string name="menu_move">移動到文件夾</string>
++    <string name="menu_pin">置頂</string>
++    <string name="menu_unpin">取消置頂</string>
++    <string name="pinned_success">已置頂</string>
++    <string name="unpinned_success">已取消置頂</string>
+     <string name="menu_select_title">選中了 %d 項</string>
+     <string name="menu_select_none">沒有選中項，操作無效</string>
+     <string name="menu_select_all">全選</string>

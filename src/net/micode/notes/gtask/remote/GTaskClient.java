@@ -197,7 +197,7 @@ public class GTaskClient {
             authToken = authTokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
             if (invalidateToken) {
                 accountManager.invalidateAuthToken("com.google", authToken);
-                loginGoogleAccount(activity, false);
+                return loginGoogleAccount(activity, false);
             }
         } catch (Exception e) {
             Log.e(TAG, "get auth token failed");

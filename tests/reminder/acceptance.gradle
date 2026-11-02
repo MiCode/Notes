@@ -1,0 +1,23 @@
+// Opt-in acceptance fixture for the actual checkout, without replacing production sources.
+// Usage: gradlew -I tests/reminder/acceptance.gradle assembleDebug assembleDebugAndroidTest
+gradle.beforeProject { project ->
+    project.afterEvaluate {
+        if (project.plugins.hasPlugin('com.android.application')) {
+            project.android {
+                defaultConfig { testInstrumentationRunner 'net.micode.notes.tests.ReminderInstrumentation' }
+                sourceSets {
+                    debug {
+                        java.srcDir 'tests/reminder/host'
+                        manifest.srcFile 'tests/reminder/host/AndroidManifest.xml'
+                    }
+                    androidTest {
+                        java.srcDirs = ['tests/reminder/android']
+                        manifest.srcFile 'tests/reminder/AndroidManifest.xml'
+                    }
+                }
+            }
+            project.dependencies.add('androidTestCompileOnly', project.files(
+                    "${project.android.sdkDirectory}/platforms/android-34/optional/android.test.mock.jar"))
+        }
+    }
+}

@@ -17,15 +17,14 @@
 package net.micode.notes.ui;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
 import net.micode.notes.data.Notes;
 import net.micode.notes.data.Notes.NoteColumns;
+import net.micode.notes.tool.ReminderScheduler;
 
 
 public class AlarmInitReceiver extends BroadcastReceiver {
@@ -40,26 +39,28 @@ public class AlarmInitReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (intent == null || !(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
+                || AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED.equals(intent.getAction()))) {
+            return;
+        }
         long currentDate = System.currentTimeMillis();
         Cursor c = context.getContentResolver().query(Notes.CONTENT_NOTE_URI,
                 PROJECTION,
-                NoteColumns.ALERTED_DATE + ">? AND " + NoteColumns.TYPE + "=" + Notes.TYPE_NOTE,
-                new String[] { String.valueOf(currentDate) },
+                NoteColumns.ALERTED_DATE + ">? AND " + NoteColumns.TYPE + "=? AND "
+                        + NoteColumns.PARENT_ID + "<>?",
+                new String[] { String.valueOf(currentDate), String.valueOf(Notes.TYPE_NOTE),
+                        String.valueOf(Notes.ID_TRASH_FOLER) },
                 null);
 
         if (c != null) {
-            if (c.moveToFirst()) {
-                do {
-                    long alertDate = c.getLong(COLUMN_ALERTED_DATE);
-                    Intent sender = new Intent(context, AlarmReceiver.class);
-                    sender.setData(ContentUris.withAppendedId(Notes.CONTENT_NOTE_URI, c.getLong(COLUMN_ID)));
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, sender, 0);
-                    AlarmManager alermManager = (AlarmManager) context
-                            .getSystemService(Context.ALARM_SERVICE);
-                    alermManager.set(AlarmManager.RTC_WAKEUP, alertDate, pendingIntent);
-                } while (c.moveToNext());
+            try {
+                while (c.moveToNext()) {
+                    ReminderScheduler.schedule(context, c.getLong(COLUMN_ID),
+                            c.getLong(COLUMN_ALERTED_DATE));
+                }
+            } finally {
+                c.close();
             }
-            c.close();
         }
     }
 }

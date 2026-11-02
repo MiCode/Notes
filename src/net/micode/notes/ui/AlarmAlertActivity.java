@@ -29,13 +29,14 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.provider.Settings;
 import android.view.Window;
 import android.view.WindowManager;
 
 import net.micode.notes.R;
 import net.micode.notes.data.Notes;
 import net.micode.notes.tool.DataUtils;
+import net.micode.notes.tool.ReminderScheduler;
+import android.content.ContentUris;
 
 import java.io.IOException;
 
@@ -64,15 +65,25 @@ public class AlarmAlertActivity extends Activity implements OnClickListener, OnD
         Intent intent = getIntent();
 
         try {
-            mNoteId = Long.valueOf(intent.getData().getPathSegments().get(1));
+            if (intent.getData() == null) {
+                finish();
+                return;
+            }
+            mNoteId = ContentUris.parseId(intent.getData());
             mSnippet = DataUtils.getSnippetById(this.getContentResolver(), mNoteId);
+            if (mSnippet == null) {
+                mSnippet = "";
+            }
             mSnippet = mSnippet.length() > SNIPPET_PREW_MAX_LEN ? mSnippet.substring(0,
                     SNIPPET_PREW_MAX_LEN) + getResources().getString(R.string.notelist_string_info)
                     : mSnippet;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
+            finish();
             return;
         }
+
+        ReminderScheduler.dismissNotification(this, mNoteId);
 
         mPlayer = new MediaPlayer();
         if (DataUtils.visibleInNoteDatabase(getContentResolver(), mNoteId, Notes.TYPE_NOTE)) {
@@ -91,14 +102,10 @@ public class AlarmAlertActivity extends Activity implements OnClickListener, OnD
     private void playAlarmSound() {
         Uri url = RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_ALARM);
 
-        int silentModeStreams = Settings.System.getInt(getContentResolver(),
-                Settings.System.MODE_RINGER_STREAMS_AFFECTED, 0);
-
-        if ((silentModeStreams & (1 << AudioManager.STREAM_ALARM)) != 0) {
-            mPlayer.setAudioStreamType(silentModeStreams);
-        } else {
-            mPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+        if (url == null) {
+            url = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
+        mPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         try {
             mPlayer.setDataSource(this, url);
             mPlayer.prepare();
@@ -150,9 +157,15 @@ public class AlarmAlertActivity extends Activity implements OnClickListener, OnD
 
     private void stopAlarmSound() {
         if (mPlayer != null) {
-            mPlayer.stop();
+            // release is valid even if setting up the sound failed before playback started.
             mPlayer.release();
             mPlayer = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopAlarmSound();
+        super.onDestroy();
     }
 }

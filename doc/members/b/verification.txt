@@ -1,0 +1,12 @@
+B phase-one verification
+BASE: 81a66024fe48eaa2206b854430856fe3875ff3ba
+Branch: member/b-quick-reminder
+Annotation counts are net added physical comment lines, including Javadoc delimiters.
+PASS executable tokens unchanged; +13 comment lines: src/net/micode/notes/widget/NoteWidgetProvider.java
+PASS executable tokens unchanged; +15 comment lines: src/net/micode/notes/tool/DataUtils.java
+PASS executable tokens unchanged; +11 comment lines: src/net/micode/notes/ui/DateTimePickerDialog.java
+Baseline inventory: 39 Java source files, 8 packages, 10002 physical lines (comments and blank lines included).
+Evidence: src/net/micode/notes/ui/DateTimePickerDialog.java:90: flag |= mIs24HourView ? DateUtils.FORMAT_24HOUR : DateUtils.FORMAT_24HOUR;
+Evidence: src/net/micode/notes/tool/DataUtils.java:270: return cursor.getLong(0);
+PASS git diff --check BASE
+Android build, unit tests, device tests and SonarQube: NOT RUN / build entry unavailable.

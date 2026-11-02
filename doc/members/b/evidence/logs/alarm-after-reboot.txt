@@ -1,0 +1,32 @@
+# Excerpts from actual adb shell dumpsys alarm; unrelated emulator services omitted.
+      listener=android.app.AlarmManager$ListenerWrapper@efc71ae
+
+    RTC_WAKEUP #12: Alarm{6445061 type 0 origWhen 1793112300000 whenElapsed 6790227 net.micode.notes}
+
+      tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+      type=RTC_WAKEUP origWhen=2026-10-27 14:45:00.000 window=0 exactAllowReason=permission repeatInterval=0 count=0 flags=0x5
+
+      policyWhenElapsed: requester=+1h51m43s75ms app_standby=-1s886ms device_idle=-- battery_saver=-1s886ms
+
+      whenElapsed=+1h51m43s75ms maxWhenElapsed=+1h51m43s75ms
+
+      operation=PendingIntent{799f786: PendingIntentRecord{d9d6847 net.micode.notes broadcastIntent}}
+
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=302, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+
+    RTC_WAKEUP #13: Alarm{fb53874 type 0 origWhen 1793112540000 whenElapsed 7030227 net.micode.notes}
+
+      tag=*walarm*:net.micode.notes/.ui.AlarmReceiver
+
+      type=RTC_WAKEUP origWhen=2026-10-27 14:49:00.000 window=0 exactAllowReason=permission repeatInterval=0 count=0 flags=0x5
+
+      policyWhenElapsed: requester=+1h55m43s75ms app_standby=-1s866ms device_idle=-- battery_saver=-1s866ms
+
+      whenElapsed=+1h55m43s75ms maxWhenElapsed=+1h55m43s75ms
+
+      operation=PendingIntent{514919d: PendingIntentRecord{a8e0612 net.micode.notes broadcastIntent}}
+
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=302, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+
+    ELAPSED #14: Alarm{727f857 type 3 origWhen 14431597 whenElapsed 14431597 android}

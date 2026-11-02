@@ -85,7 +85,8 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
 
                     <net.micode.notes.ui.NoteEditText
                         android:id="@+id/note_edit_view"
@@ -108,6 +109,24 @@
                         android:visibility="gone" />
                 </LinearLayout>
             </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/word_count_bar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:minHeight="24dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip" >
+
+                <TextView
+                    android:id="@+id/tv_word_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="fill_parent"

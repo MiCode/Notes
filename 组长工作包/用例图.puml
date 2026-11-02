@@ -1,0 +1,33 @@
+@startuml
+title MiCode Notes 系统用例图
+left to right direction
+
+actor 用户 as User
+actor "系统时钟" as Clock
+actor "Google 账户/任务服务" as Google
+
+rectangle "MiCode Notes" {
+  usecase "新建与编辑便签" as UC_Edit
+  usecase "删除与移动便签" as UC_Manage
+  usecase "管理文件夹" as UC_Folder
+  usecase "搜索便签" as UC_Search
+  usecase "设置与取消提醒" as UC_Alert
+  usecase "使用桌面小组件" as UC_Widget
+  usecase "导出文本" as UC_Export
+  usecase "同步便签" as UC_Sync
+  usecase "置顶/取消置顶便签\n（本次新增）" as UC_Pin #LightGreen
+}
+
+User --> UC_Edit
+User --> UC_Manage
+User --> UC_Folder
+User --> UC_Search
+User --> UC_Alert
+User --> UC_Widget
+User --> UC_Export
+User --> UC_Sync
+User --> UC_Pin
+
+Clock --> UC_Alert
+Google --> UC_Sync
+@enduml
